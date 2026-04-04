@@ -1,0 +1,62 @@
+<nz-layout class="app-layout">
+  <nz-sider 
+    class="menu-sidebar dark:bg-gray-800" 
+    nzCollapsible 
+    nzWidth="250px" 
+    [nzCollapsedWidth]="80"
+    nzBreakpoint="lg"
+    [(nzCollapsed)]="isCollapsed"
+    [nzTrigger]="null"
+    (mouseenter)="onSidebarMouseEnter()"
+    (mouseleave)="onSidebarMouseLeave()">
+    <div class="logo-container">
+      <div class="logo">
+        <i nz-icon nzType="dollar-circle" nzTheme="fill" class="logo-icon"></i>
+        <span *ngIf="!isCollapsed" class="logo-text">FinDash</span>
+      </div>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed" class="sidebar-menu">
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/dashboard" class="menu-link">
+          <i nz-icon nzType="dashboard" class="menu-icon"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a routerLink="/transactions" class="menu-link">
+          <i nz-icon nzType="transaction" class="menu-icon"></i>
+          <span>Transactions</span>
+        </a>
+      </li>
+      <li nz-menu-divider></li>
+      <li nz-menu-item (click)="onRoleChange(currentRole === 'admin' ? 'viewer' : 'admin')" class="role-menu-item">
+        <i nz-icon [nzType]="currentRole === 'admin' ? 'user' : 'eye'" class="menu-icon"></i>
+        <span>{{ currentRole === 'admin' ? 'Admin Mode' : 'Viewer Mode' }}</span>
+      </li>
+    </ul>
+  </nz-sider>
+  
+  <nz-layout [style.margin-left.px]="sidebarWidth">
+    <nz-header class="header dark:bg-gray-800 flex items-center justify-between px-6">
+      <div class="header-left">
+        <h2 class="text-xl font-semibold dark:text-white m-0">Finance Dashboard</h2>
+      </div>
+      
+      <div class="header-right flex items-center gap-4">
+        <button 
+          nz-button 
+          nzType="text" 
+          class="theme-toggle-btn"
+          (click)="toggleTheme()"
+          nz-tooltip
+          [nzTooltipTitle]="isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+          <i nz-icon [nzType]="isDarkMode ? 'sun' : 'moon'" class="text-xl"></i>
+        </button>
+      </div>
+    </nz-header>
+    
+    <nz-content class="inner-content">
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>

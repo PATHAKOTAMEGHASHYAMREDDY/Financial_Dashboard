@@ -1,0 +1,229 @@
+.app-layout {
+  min-height: 100vh;
+}
+
+.menu-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+  background: linear-gradient(180deg, #001529 0%, #002140 100%);
+}
+
+:host-context(.dark) .menu-sidebar {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Main layout with dynamic margin */
+::ng-deep .app-layout > .ant-layout {
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-container {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.logo-icon {
+  font-size: 36px;
+  color: #1890ff;
+  transition: transform 0.3s ease;
+}
+
+.menu-sidebar:hover .logo-icon {
+  transform: rotate(360deg);
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+  animation: fadeInRight 0.3s ease;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.sidebar-menu {
+  padding: 0 12px;
+}
+
+.menu-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.menu-icon {
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .ant-menu-dark .ant-menu-item {
+  border-radius: 8px;
+  margin: 8px 0;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .ant-menu-dark .ant-menu-item:hover {
+  background: rgba(24, 144, 255, 0.2) !important;
+  transform: translateX(4px);
+}
+
+::ng-deep .ant-menu-dark .ant-menu-item-selected {
+  background: linear-gradient(90deg, rgba(24, 144, 255, 0.3), rgba(24, 144, 255, 0.1)) !important;
+  border-left: 3px solid #1890ff;
+}
+
+::ng-deep .ant-menu-dark .ant-menu-item-selected .menu-icon {
+  color: #1890ff;
+  transform: scale(1.1);
+}
+
+.role-menu-item {
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+::ng-deep .ant-menu-dark {
+  background: transparent;
+}
+
+.header {
+  background: #fff;
+  padding: 0 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 64px;
+  line-height: 64px;
+}
+
+:host-context(.dark) .header {
+  background: #1f1f1f;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.header-left h2 {
+  line-height: 64px;
+}
+
+.header-right {
+  line-height: 64px;
+}
+
+.theme-toggle-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+:host-context(.dark) .theme-toggle-btn {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.theme-toggle-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  transform: rotate(180deg);
+}
+
+:host-context(.dark) .theme-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(180deg);
+}
+
+.theme-toggle-btn i {
+  transition: all 0.3s ease;
+}
+
+.inner-content {
+  margin: 0;
+  min-height: calc(100vh - 64px);
+  background: #f0f2f5;
+}
+
+:host-context(.dark) .inner-content {
+  background: #141414;
+}
+
+::ng-deep .ant-layout-sider-dark {
+  background: transparent;
+}
+
+::ng-deep .ant-layout-sider-collapsed .logo-text {
+  display: none;
+}
+
+::ng-deep .ant-menu-inline-collapsed > .ant-menu-item {
+  padding: 0 calc(50% - 16px / 2);
+}
+
+/* Smooth scrollbar for sidebar */
+.menu-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.menu-sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.menu-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.menu-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  ::ng-deep .app-layout > .ant-layout {
+    margin-left: 0 !important;
+  }
+  
+  .menu-sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .menu-sidebar:hover {
+    transform: translateX(0);
+  }
+}
