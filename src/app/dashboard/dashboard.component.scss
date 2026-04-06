@@ -7,6 +7,51 @@
   animation: fadeInUp 0.4s ease;
 }
 
+/* ── Hero Header ── */
+.page-header-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 0 4px;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-lottie {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 20px;
+  background: rgba(5, 150, 105, 0.05);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(5, 150, 105, 0.1);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 40px rgba(5, 150, 105, 0.15);
+  }
+}
+
+:host-context(.dark) .hero-lottie {
+  background: rgba(52, 211, 153, 0.04);
+  border-color: rgba(52, 211, 153, 0.08);
+}
+
+@media (max-width: 640px) {
+  .page-header-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero-lottie {
+    align-self: center;
+  }
+}
+
 /* ── Component-scoped Dark Mode Card Overrides ── */
 /* These beat ng-zorro-antd.min.css because they are component-scoped */
 :host-context(.dark) ::ng-deep .ant-card {

@@ -10,6 +10,8 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideNzIcons } from './icons-provider';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { routes } from './app.routes';
+import { provideLottieOptions } from 'ngx-lottie';
+import player from 'lottie-web';
 
 registerLocaleData(en);
 
@@ -22,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideNzI18n(en_US),
     provideNzIcons(),
     provideCharts(withDefaultRegisterables()),
-    importProvidersFrom(FormsModule, NzMessageModule)
+    importProvidersFrom(FormsModule, NzMessageModule),
+    provideLottieOptions({ player: () => player }),
   ]
 };

@@ -9,6 +9,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration } from 'chart.js';
 import { Subscription } from 'rxjs';
+import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,8 @@ import { Subscription } from 'rxjs';
     SummaryCardComponent,
     NzCardModule,
     NzGridModule,
-    BaseChartDirective
+    BaseChartDirective,
+    LottieComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
@@ -29,6 +31,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   monthlyComparison: MonthlyComparison = { currentMonth: 0, lastMonth: 0, difference: 0, percentageChange: 0 };
   isDarkMode = false;
   private subs = new Subscription();
+
+  lottieOptions: AnimationOptions = {
+    path: '/Isometric data analysis.json',
+    loop: true,
+    autoplay: true,
+  };
 
   lineChartData: ChartConfiguration['data'] = { datasets: [], labels: [] };
 

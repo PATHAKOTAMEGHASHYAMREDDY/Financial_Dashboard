@@ -147,6 +147,13 @@
         </tr>
       </tbody>
     </nz-table>
+
+    <!-- ── Lottie Empty State ── -->
+    <div class="empty-state" *ngIf="filteredTransactions.length === 0">
+      <ng-lottie [options]="lottieOptions" width="220px" height="180px"></ng-lottie>
+      <p class="empty-title">No transactions found</p>
+      <p class="empty-sub">Try adjusting your filters or add a new transaction</p>
+    </div>
   </nz-card>
 </div>
 

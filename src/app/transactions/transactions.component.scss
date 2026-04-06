@@ -603,3 +603,29 @@
   align-items: flex-start;
   gap: 14px;
 }
+
+/* ── Lottie Empty State ── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 32px;
+  text-align: center;
+}
+
+.empty-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg-text);
+  margin: 8px 0 4px;
+}
+
+.empty-sub {
+  font-size: 13px;
+  color: var(--fg-text-muted);
+  margin: 0;
+}
+
+:host-context(.dark) .empty-title { color: #e2e8f0; }
+:host-context(.dark) .empty-sub   { color: #64748b; }

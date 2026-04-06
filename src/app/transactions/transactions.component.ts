@@ -18,6 +18,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-transactions',
@@ -37,6 +38,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzDropDownModule,
     NzCardModule,
     NzToolTipModule,
+    LottieComponent,
   ],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss']
@@ -46,7 +48,13 @@ export class TransactionsComponent implements OnInit {
   filteredTransactions: Transaction[] = [];
   isAdmin = false;
   pageSize = 10;
-  
+
+  lottieOptions: AnimationOptions = {
+    path: '/Isometric data analysis.json',
+    loop: true,
+    autoplay: true,
+  };
+
   searchText = '';
   selectedCategory = '';
   selectedType = '';
