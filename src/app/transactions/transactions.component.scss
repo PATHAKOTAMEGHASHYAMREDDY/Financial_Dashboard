@@ -1,60 +1,605 @@
+/* ============================================
+   Transactions Component Styles
+   ============================================ */
+
 .transactions-container {
-  animation: fadeIn 0.5s ease-in;
+  background: var(--fg-bg);
+  animation: fadeInUp 0.4s ease;
 }
 
-.filter-card, .table-card {
-  border-radius: 12px;
-  border: 1px solid #f0f0f0;
+/* ── Component-scoped Dark Mode Overrides ── */
+/* :host-context(.dark) has higher specificity than global ::ng-deep */
+
+/* Cards */
+:host-context(.dark) ::ng-deep .ant-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+:host-context(.dark) ::ng-deep .ant-card-body {
+  background: #1e293b !important;
 }
 
-:host-context(.dark) .filter-card,
-:host-context(.dark) .table-card {
-  border-color: #303030;
+/* All table layers */
+:host-context(.dark) ::ng-deep .ant-table-wrapper,
+:host-context(.dark) ::ng-deep .ant-spin-nested-loading,
+:host-context(.dark) ::ng-deep .ant-spin-container,
+:host-context(.dark) ::ng-deep .ant-table,
+:host-context(.dark) ::ng-deep .ant-table-container,
+:host-context(.dark) ::ng-deep .ant-table-content,
+:host-context(.dark) ::ng-deep .ant-table table {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
 }
 
+:host-context(.dark) ::ng-deep .ant-table-thead > tr > th {
+  background: #0f172a !important;
+  color: #64748b !important;
+  border-bottom: 2px solid #334155 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-table-thead > tr > th::before {
+  background-color: #334155 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-table-tbody > tr {
+  background: #1e293b !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-table-tbody > tr > td {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+  border-bottom: 1px solid #334155 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-table-tbody > tr:hover > td {
+  background: rgba(5, 150, 105, 0.07) !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-table-tbody > tr:nth-child(even) > td {
+  background: rgba(15, 23, 42, 0.4) !important;
+}
+:host-context(.dark) ::ng-deep .ant-table-tbody > tr:nth-child(even):hover > td {
+  background: rgba(5, 150, 105, 0.07) !important;
+}
+
+/* Pagination */
+:host-context(.dark) ::ng-deep .ant-pagination {
+  background: #1e293b !important;
+}
+:host-context(.dark) ::ng-deep .ant-pagination-item {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+:host-context(.dark) ::ng-deep .ant-pagination-item a {
+  color: #94a3b8 !important;
+  background: transparent !important;
+}
+:host-context(.dark) ::ng-deep .ant-pagination-item-active {
+  background: rgba(5,150,105,0.1) !important;
+  border-color: #059669 !important;
+}
+:host-context(.dark) ::ng-deep .ant-pagination-item-active a { color: #6ee7b7 !important; }
+:host-context(.dark) ::ng-deep .ant-pagination-prev .ant-pagination-item-link,
+:host-context(.dark) ::ng-deep .ant-pagination-next .ant-pagination-item-link {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+/* All inputs & selects */
+:host-context(.dark) ::ng-deep .ant-input,
+:host-context(.dark) ::ng-deep .ant-input:hover,
+:host-context(.dark) ::ng-deep .ant-input:focus,
+:host-context(.dark) ::ng-deep .ant-input-number,
+:host-context(.dark) ::ng-deep .ant-input-number-input,
+:host-context(.dark) ::ng-deep .ant-input-affix-wrapper,
+:host-context(.dark) ::ng-deep .ant-input-affix-wrapper:hover,
+:host-context(.dark) ::ng-deep .ant-input-affix-wrapper-focused {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-input::placeholder,
+:host-context(.dark) ::ng-deep .ant-input-number-input::placeholder {
+  color: #475569 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-input-prefix,
+:host-context(.dark) ::ng-deep .ant-input-suffix {
+  color: #64748b !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-select-selector {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-select-selection-placeholder {
+  color: #475569 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-select-arrow { color: #64748b !important; }
+
+:host-context(.dark) ::ng-deep .ant-picker,
+:host-context(.dark) ::ng-deep .ant-picker:hover {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-picker-input > input {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-picker-input > input::placeholder {
+  color: #475569 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-picker-separator,
+:host-context(.dark) ::ng-deep .ant-picker-suffix {
+  color: #475569 !important;
+}
+
+/* Input focus glow green */
+:host-context(.dark) ::ng-deep .ant-input:focus,
+:host-context(.dark) ::ng-deep .ant-input-affix-wrapper-focused,
+:host-context(.dark) ::ng-deep .ant-picker-focused {
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 2px rgba(5,150,105,0.15) !important;
+}
+
+
+/* ── Page Header ── */
+.page-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--fg-text);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+:host-context(.dark) .page-title { color: #f1f5f9; }
+
+/* ── Page Header Row ── */
+.page-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-export {
+  height: 38px;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  border-color: var(--fg-border) !important;
+  color: var(--fg-text-muted) !important;
+  background: var(--fg-surface) !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+:host-context(.dark) .btn-export {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+.btn-add {
+  height: 38px;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  background: #059669 !important;
+  border-color: #059669 !important;
+  box-shadow: 0 2px 8px rgba(5,150,105,0.3) !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease !important;
+}
+
+.btn-add:hover {
+  background: #047857 !important;
+  border-color: #047857 !important;
+  box-shadow: 0 4px 14px rgba(5,150,105,0.45) !important;
+  transform: translateY(-1px);
+}
+
+/* ── Cards ── */
+.filter-card,
+.table-card {
+  border-radius: 14px;
+  border: 1px solid var(--fg-border);
+  transition: box-shadow 0.2s ease;
+}
+
+/* ── Filter Layout ── */
+.filter-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .filter-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .filter-grid { grid-template-columns: 1fr; }
+}
+
+.filter-input-group, .filter-select { width: 100%; }
+
+.btn-clear {
+  height: 36px;
+  border-radius: 8px !important;
+  white-space: nowrap;
+  color: var(--fg-text-muted) !important;
+}
+
+.filter-grid-row2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 600px) {
+  .filter-grid-row2 { grid-template-columns: 1fr; }
+}
+
+.amount-range {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.range-sep {
+  color: var(--fg-text-subtle);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.filter-summary {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--fg-border);
+  font-size: 13px;
+  color: var(--fg-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+:host-context(.dark) .filter-summary { border-top-color: #334155; color: #94a3b8; }
+
+/* ── Table Rows ── */
 .table-row {
-  transition: all 0.3s ease;
-  
-  &:hover {
-    background-color: #f5f5f5;
+  transition: background-color 0.15s ease;
+  cursor: default;
+
+  &:hover > td {
+    background-color: rgba(5, 150, 105, 0.04) !important;
   }
 }
 
-:host-context(.dark) .table-row:hover {
-  background-color: #1f1f1f;
+:host-context(.dark) .table-row:hover > td {
+  background-color: rgba(5, 150, 105, 0.06) !important;
 }
 
+/* ── Table Header ── */
+::ng-deep .ant-table-thead > tr > th {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--fg-text-muted) !important;
+  background: var(--fg-bg) !important;
+  border-bottom: 2px solid var(--fg-border) !important;
+  padding: 12px 16px !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-table-thead > tr > th {
+  background: #0f172a !important;
+  color: #64748b !important;
+  border-bottom-color: #334155 !important;
+}
+
+.td-date { color: var(--fg-text-muted); font-size: 13px; }
+.td-desc { font-weight: 500; color: var(--fg-text); max-width: 260px; }
+.td-actions { white-space: nowrap; }
+
+:host-context(.dark) .td-date { color: #64748b; }
+:host-context(.dark) .td-desc { color: #e2e8f0; }
+
+/* ── Category Tags ── */
 .category-tag {
+  display: inline-flex;
+  align-items: center;
   padding: 4px 12px;
-  border-radius: 16px;
-  background-color: #e6f7ff;
-  color: #0ea5e9;
+  border-radius: 20px;
+  background: rgba(5, 150, 105, 0.08);
+  color: #059669;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+  border: 1px solid rgba(5, 150, 105, 0.15);
+  white-space: nowrap;
 }
 
 :host-context(.dark) .category-tag {
-  background-color: #0c4a6e;
-  color: #7dd3fc;
+  background: rgba(5, 150, 105, 0.1);
+  color: #6ee7b7;
+  border-color: rgba(5, 150, 105, 0.2);
 }
 
+/* ── Type Badges ── */
 .type-income {
-  color: #10b981;
-  font-weight: 500;
+  display: inline-flex; align-items: center; gap: 4px;
+  color: #059669; font-weight: 600; font-size: 13px;
 }
-
 .type-expense {
-  color: #ef4444;
-  font-weight: 500;
+  display: inline-flex; align-items: center; gap: 4px;
+  color: #dc2626; font-weight: 600; font-size: 13px;
+}
+:host-context(.dark) .type-income { color: #6ee7b7; }
+:host-context(.dark) .type-expense { color: #f87171; }
+
+/* ── Amount Colors ── */
+.amount-income  { color: #059669 !important; font-weight: 700 !important; }
+.amount-expense { color: #dc2626 !important; font-weight: 700 !important; }
+:host-context(.dark) .amount-income  { color: #6ee7b7 !important; }
+:host-context(.dark) .amount-expense { color: #f87171 !important; }
+
+/* ── Modal Styles ── */
+.modal-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.modal-title-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(5, 150, 105, 0.1);
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+
+  &.is-income { background: rgba(5,150,105,0.12); color: #059669; }
+}
+
+:host-context(.dark) .modal-title-icon {
+  background: rgba(5,150,105,0.15);
+  color: #34d399;
+}
+
+.modal-title-main {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg-text);
+  margin: 0 0 2px;
+}
+
+.modal-title-sub {
+  font-size: 13px;
+  color: var(--fg-text-muted);
+  margin: 0;
+}
+
+:host-context(.dark) .modal-title-main { color: #f1f5f9; }
+:host-context(.dark) .modal-title-sub  { color: #64748b; }
+
+/* Modal Form */
+.modal-form {
+  padding: 8px 0 0;
+}
+
+::ng-deep .modal-form .ant-form-item {
+  margin-bottom: 18px !important;
+}
+
+::ng-deep .modal-form .ant-form-item-label > label {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: var(--fg-text-muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+
+:host-context(.dark) ::ng-deep .modal-form .ant-form-item-label > label {
+  color: #64748b !important;
+}
+
+/* Type Selector */
+.type-selector {
+  display: flex;
+  gap: 10px;
+}
+
+.type-btn {
+  flex: 1;
+  height: 44px;
+  border-radius: 10px;
+  border: 2px solid var(--fg-border);
+  background: var(--fg-surface);
+  color: var(--fg-text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.type-btn:hover {
+  border-color: rgba(5,150,105,0.4);
+  color: #059669;
+}
+
+.type-btn-active-income {
+  background: rgba(5,150,105,0.08) !important;
+  border-color: #059669 !important;
+  color: #059669 !important;
+}
+
+.type-btn-active-expense {
+  background: rgba(220,38,38,0.06) !important;
+  border-color: #dc2626 !important;
+  color: #dc2626 !important;
+}
+
+:host-context(.dark) .type-btn {
+  background: #0f172a;
+  border-color: #334155;
+  color: #64748b;
+}
+
+:host-context(.dark) .type-btn-active-income {
+  background: rgba(52,211,153,0.1) !important;
+  border-color: #34d399 !important;
+  color: #34d399 !important;
+}
+
+:host-context(.dark) .type-btn-active-expense {
+  background: rgba(248,113,113,0.08) !important;
+  border-color: #f87171 !important;
+  color: #f87171 !important;
+}
+
+/* Amount Input */
+.amount-input-group ::ng-deep .ant-input-group-addon {
+  background: var(--fg-bg) !important;
+  border-color: var(--fg-border) !important;
+  color: #059669 !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  padding: 0 14px !important;
+}
+
+:host-context(.dark) .amount-input-group ::ng-deep .ant-input-group-addon {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #34d399 !important;
+}
+
+/* Modal Footer */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.btn-cancel {
+  height: 40px;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+}
+
+.btn-save {
+  height: 40px;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  background: #059669 !important;
+  border-color: #059669 !important;
+  box-shadow: 0 2px 8px rgba(5,150,105,0.3) !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-save:hover:not([disabled]) {
+  background: #047857 !important;
+  border-color: #047857 !important;
+}
+
+.btn-save[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none !important;
+}
+
+/* ── Action Buttons ── */
+::ng-deep .ant-btn-link {
+  color: var(--fg-text-muted) !important;
+  transition: color 0.2s ease !important;
+}
+::ng-deep .ant-btn-link:hover { color: var(--fg-primary) !important; }
+::ng-deep .ant-btn-dangerous.ant-btn-link:hover { color: #dc2626 !important; }
+
+/* ── Animation ── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Field Label Icons (Material Icons in form labels) ── */
+.field-label-icon {
+  font-size: 14px !important;
+  vertical-align: middle;
+  margin-right: 5px;
+  opacity: 0.65;
+  position: relative;
+  top: -1px;
+  font-family: 'Material Icons', sans-serif;
+}
+
+/* Override ant label display for icon alignment */
+::ng-deep .modal-form .ant-form-item-label > label {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+/* Modal title icon with material icon */
+.modal-title-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(5, 150, 105, 0.1);
+  color: #059669;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .material-icons { font-size: 22px; line-height: 1; }
+}
+
+.modal-title-main {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--fg-text);
+  margin: 0 0 2px;
+}
+
+.modal-title-sub {
+  font-size: 13px;
+  color: var(--fg-text-muted);
+  margin: 0;
+}
+
+.modal-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
 }

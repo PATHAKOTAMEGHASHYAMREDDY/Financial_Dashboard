@@ -1,73 +1,103 @@
-<div class="transactions-container p-6 dark:bg-gray-900 min-h-screen">
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold dark:text-white">Transactions</h1>
-    <div class="flex gap-2">
-      <button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="exportMenu">
-        <i nz-icon nzType="download"></i> Export
+<div class="transactions-container p-6 min-h-screen">
+
+  <!-- Page Header -->
+  <div class="page-header-row">
+    <h1 class="page-title">Transactions</h1>
+    <div class="header-actions">
+      <!-- Export -->
+      <button nz-button nzType="default" nz-dropdown [nzDropdownMenu]="exportMenu" class="btn-export">
+        <i nz-icon nzType="download"></i>
+        <span>Export</span>
       </button>
       <nz-dropdown-menu #exportMenu="nzDropdownMenu">
         <ul nz-menu>
-          <li nz-menu-item (click)="exportCSV()">Export as CSV</li>
-          <li nz-menu-item (click)="exportJSON()">Export as JSON</li>
+          <li nz-menu-item (click)="exportCSV()">
+            <i nz-icon nzType="file-text" class="mr-2"></i> Export as CSV
+          </li>
+          <li nz-menu-item (click)="exportJSON()">
+            <i nz-icon nzType="code" class="mr-2"></i> Export as JSON
+          </li>
         </ul>
       </nz-dropdown-menu>
-      
-      <button *ngIf="isAdmin" nz-button nzType="primary" (click)="showAddModal()">
-        <i nz-icon nzType="plus"></i> Add Transaction
+
+      <!-- Add Transaction — always visible -->
+      <button nz-button nzType="primary" (click)="showAddModal()" class="btn-add">
+        <i nz-icon nzType="plus"></i>
+        <span>Add Transaction</span>
       </button>
     </div>
   </div>
 
-  <!-- Filters -->
-  <nz-card class="mb-4 dark:bg-gray-800 filter-card">
-    <div nz-row [nzGutter]="[16, 16]">
-      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
-        <nz-input-group [nzPrefix]="searchIcon">
-          <input nz-input placeholder="Search by description or category..." [(ngModel)]="searchText" (ngModelChange)="applyFilters()" />
+  <!-- ── Filters ── -->
+  <nz-card class="filter-card mb-5">
+    <div class="filter-grid">
+      <!-- Search -->
+      <nz-input-group [nzPrefix]="searchTpl" class="filter-input-group">
+        <input nz-input
+               placeholder="Search description or category…"
+               [(ngModel)]="searchText"
+               (ngModelChange)="applyFilters()" />
+      </nz-input-group>
+      <ng-template #searchTpl>
+        <i nz-icon nzType="search" class="filter-prefix-icon"></i>
+      </ng-template>
+
+      <!-- Category -->
+      <nz-select nzPlaceHolder="All Categories"
+                 [(ngModel)]="selectedCategory"
+                 (ngModelChange)="applyFilters()"
+                 nzAllowClear
+                 class="filter-select">
+        <nz-option *ngFor="let cat of categories" [nzValue]="cat" [nzLabel]="cat"></nz-option>
+      </nz-select>
+
+      <!-- Type -->
+      <nz-select nzPlaceHolder="All Types"
+                 [(ngModel)]="selectedType"
+                 (ngModelChange)="applyFilters()"
+                 nzAllowClear
+                 class="filter-select">
+        <nz-option nzValue="income"  nzLabel="Income"></nz-option>
+        <nz-option nzValue="expense" nzLabel="Expense"></nz-option>
+      </nz-select>
+
+      <!-- Clear -->
+      <button nz-button nzType="default" (click)="clearFilters()" class="btn-clear w-full">
+        <i nz-icon nzType="reload"></i> Clear
+      </button>
+    </div>
+
+    <!-- Date + Amount range -->
+    <div class="filter-grid-row2 mt-4">
+      <nz-range-picker
+        [(ngModel)]="dateRange"
+        (ngModelChange)="applyFilters()"
+        class="w-full">
+      </nz-range-picker>
+
+      <div class="amount-range">
+        <nz-input-group nzPrefix="$" nzCompact>
+          <input nz-input type="number" placeholder="Min" [(ngModel)]="amountRange.min" (ngModelChange)="applyFilters()" />
         </nz-input-group>
-        <ng-template #searchIcon>
-          <i nz-icon nzType="search"></i>
-        </ng-template>
-      </div>
-      
-      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
-        <nz-select nzPlaceHolder="Category" [(ngModel)]="selectedCategory" (ngModelChange)="applyFilters()" nzAllowClear class="w-full">
-          <nz-option *ngFor="let cat of categories" [nzValue]="cat" [nzLabel]="cat"></nz-option>
-        </nz-select>
-      </div>
-      
-      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
-        <nz-select nzPlaceHolder="Type" [(ngModel)]="selectedType" (ngModelChange)="applyFilters()" nzAllowClear class="w-full">
-          <nz-option *ngFor="let type of types" [nzValue]="type" [nzLabel]="type"></nz-option>
-        </nz-select>
-      </div>
-      
-      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="6">
-        <button nz-button nzType="default" (click)="clearFilters()" class="w-full">
-          <i nz-icon nzType="clear"></i> Clear Filters
-        </button>
+        <span class="range-sep">—</span>
+        <nz-input-group nzPrefix="$" nzCompact>
+          <input nz-input type="number" placeholder="Max" [(ngModel)]="amountRange.max" (ngModelChange)="applyFilters()" />
+        </nz-input-group>
       </div>
     </div>
-    
-    <div nz-row [nzGutter]="[16, 16]" class="mt-4">
-      <div nz-col [nzXs]="24" [nzMd]="12">
-        <nz-range-picker [(ngModel)]="dateRange" (ngModelChange)="applyFilters()" class="w-full"></nz-range-picker>
-      </div>
-      
-      <div nz-col [nzXs]="24" [nzMd]="12">
-        <div class="flex gap-2">
-          <input nz-input placeholder="Min Amount" type="number" [(ngModel)]="amountRange.min" (ngModelChange)="applyFilters()" />
-          <input nz-input placeholder="Max Amount" type="number" [(ngModel)]="amountRange.max" (ngModelChange)="applyFilters()" />
-        </div>
-      </div>
+
+    <!-- Active filters summary -->
+    <div class="filter-summary" *ngIf="filteredTransactions.length !== transactions.length">
+      <i nz-icon nzType="filter" nzTheme="fill" style="color:#059669"></i>
+      Showing <strong>{{ filteredTransactions.length }}</strong> of {{ transactions.length }} transactions
     </div>
   </nz-card>
 
-  <!-- Table -->
-  <nz-card class="dark:bg-gray-800 table-card">
-    <nz-table 
-      #transactionTable 
-      [nzData]="filteredTransactions" 
+  <!-- ── Table ── -->
+  <nz-card class="table-card">
+    <nz-table
+      #transactionTable
+      [nzData]="filteredTransactions"
       [nzPageSize]="pageSize"
       [nzShowSizeChanger]="true"
       [nzPageSizeOptions]="[10, 20, 50, 100]"
@@ -82,32 +112,35 @@
           <th [nzSortFn]="sortByCategory">Category</th>
           <th [nzSortFn]="sortByType">Type</th>
           <th [nzSortFn]="sortByAmount">Amount</th>
-          <th *ngIf="isAdmin">Actions</th>
+          <th *ngIf="isAdmin" style="width:100px">Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let transaction of transactionTable.data" class="table-row">
-          <td>{{ transaction.date | date:'short' }}</td>
-          <td>{{ transaction.description }}</td>
+          <td class="td-date">{{ transaction.date | date:'MMM d, y' }}</td>
+          <td class="td-desc">{{ transaction.description }}</td>
           <td>
             <span class="category-tag">{{ transaction.category }}</span>
           </td>
           <td>
             <span [class]="transaction.type === 'income' ? 'type-income' : 'type-expense'">
-              <i class="material-icons inline-block align-middle mr-1" style="font-size: 18px; vertical-align: middle;">
+              <i class="material-icons" style="font-size:16px;vertical-align:middle;margin-right:4px;">
                 {{ transaction.type === 'income' ? 'arrow_upward' : 'arrow_downward' }}
               </i>
-              {{ transaction.type }}
+              {{ transaction.type | titlecase }}
             </span>
           </td>
-          <td [class]="transaction.type === 'income' ? 'text-green-600' : 'text-red-600'" class="font-semibold">
-            ${{ transaction.amount }}
+          <td [class]="transaction.type === 'income' ? 'amount-income' : 'amount-expense'">
+            ${{ transaction.amount.toLocaleString() }}
           </td>
-          <td *ngIf="isAdmin">
-            <button nz-button nzType="link" nzSize="small" (click)="showEditModal(transaction)">
+          <td *ngIf="isAdmin" class="td-actions">
+            <button nz-button nzType="link" nzSize="small" (click)="showEditModal(transaction)"
+                    nz-tooltip nzTooltipTitle="Edit">
               <i nz-icon nzType="edit"></i>
             </button>
-            <button nz-button nzType="link" nzSize="small" nzDanger (click)="deleteTransaction(transaction.id)">
+            <button nz-button nzType="link" nzSize="small" nzDanger
+                    (click)="deleteTransaction(transaction.id)"
+                    nz-tooltip nzTooltipTitle="Delete">
               <i nz-icon nzType="delete"></i>
             </button>
           </td>
@@ -117,55 +150,145 @@
   </nz-card>
 </div>
 
-<!-- Add/Edit Modal -->
+<!-- ══════════════════════════════════════
+     Add / Edit Transaction Modal
+     ══════════════════════════════════════ -->
 <nz-modal
   [(nzVisible)]="isModalVisible"
-  [nzTitle]="isEditMode ? 'Edit Transaction' : 'Add Transaction'"
-  (nzOnCancel)="handleCancel()"
-  (nzOnOk)="handleOk()">
+  [nzTitle]="modalTitleTpl"
+  [nzFooter]="modalFooterTpl"
+  [nzWidth]="520"
+  nzCentered
+  (nzOnCancel)="handleCancel()">
+
+  <!-- Custom title -->
+  <ng-template #modalTitleTpl>
+    <div class="modal-title-row">
+      <div class="modal-title-icon" [class.is-income]="currentTransaction.type === 'income'">
+        <!-- Material Icon -->
+        <span class="material-icons" style="font-size:22px; line-height:1;">
+          {{ isEditMode ? 'edit_note' : 'add_card' }}
+        </span>
+      </div>
+      <div>
+        <p class="modal-title-main">{{ isEditMode ? 'Edit Transaction' : 'New Transaction' }}</p>
+        <p class="modal-title-sub">{{ isEditMode ? 'Update the transaction details below' : 'Fill in the details to add a transaction' }}</p>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Form body -->
   <ng-container *nzModalContent>
-    <form nz-form>
+    <form nz-form [nzLayout]="'vertical'" class="modal-form">
+
+      <!-- Type selector -->
       <nz-form-item>
-        <nz-form-label nzRequired>Date</nz-form-label>
+        <nz-form-label nzRequired>
+          <span class="material-icons field-label-icon">swap_vert</span>
+          Transaction Type
+        </nz-form-label>
         <nz-form-control>
-          <nz-date-picker [(ngModel)]="currentTransaction.date" name="date" class="w-full"></nz-date-picker>
+          <div class="type-selector">
+            <button type="button"
+                    [class]="'type-btn ' + (currentTransaction.type === 'income' ? 'type-btn-active-income' : '')"
+                    (click)="currentTransaction.type = 'income'">
+              <span class="material-icons" style="font-size:18px">trending_up</span>
+              Income
+            </button>
+            <button type="button"
+                    [class]="'type-btn ' + (currentTransaction.type === 'expense' ? 'type-btn-active-expense' : '')"
+                    (click)="currentTransaction.type = 'expense'">
+              <span class="material-icons" style="font-size:18px">trending_down</span>
+              Expense
+            </button>
+          </div>
         </nz-form-control>
       </nz-form-item>
-      
+
+      <!-- Amount -->
       <nz-form-item>
-        <nz-form-label nzRequired>Amount</nz-form-label>
+        <nz-form-label nzRequired>
+          <span class="material-icons field-label-icon">attach_money</span>
+          Amount
+        </nz-form-label>
         <nz-form-control>
-          <nz-input-group nzPrefix="$">
-            <input nz-input type="number" [(ngModel)]="currentTransaction.amount" name="amount" />
+          <nz-input-group nzPrefix="$" class="amount-input-group">
+            <input nz-input
+                   type="number"
+                   placeholder="0.00"
+                   [(ngModel)]="currentTransaction.amount"
+                   name="amount"
+                   min="0"
+                   step="0.01" />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      
+
+      <!-- Category -->
       <nz-form-item>
-        <nz-form-label nzRequired>Category</nz-form-label>
+        <nz-form-label nzRequired>
+          <span class="material-icons field-label-icon">label</span>
+          Category
+        </nz-form-label>
         <nz-form-control>
-          <nz-select [(ngModel)]="currentTransaction.category" name="category" class="w-full">
+          <nz-select
+            [(ngModel)]="currentTransaction.category"
+            name="category"
+            nzPlaceHolder="Select a category"
+            class="w-full">
             <nz-option *ngFor="let cat of categories" [nzValue]="cat" [nzLabel]="cat"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>
-      
+
+      <!-- Date -->
       <nz-form-item>
-        <nz-form-label nzRequired>Type</nz-form-label>
+        <nz-form-label nzRequired>
+          <span class="material-icons field-label-icon">calendar_today</span>
+          Date
+        </nz-form-label>
         <nz-form-control>
-          <nz-select [(ngModel)]="currentTransaction.type" name="type" class="w-full">
-            <nz-option nzValue="income" nzLabel="Income"></nz-option>
-            <nz-option nzValue="expense" nzLabel="Expense"></nz-option>
-          </nz-select>
+          <nz-date-picker
+            [(ngModel)]="currentTransaction.date"
+            name="date"
+            class="w-full"
+            nzFormat="MMM d, yyyy">
+          </nz-date-picker>
         </nz-form-control>
       </nz-form-item>
-      
+
+      <!-- Description -->
       <nz-form-item>
-        <nz-form-label nzRequired>Description</nz-form-label>
+        <nz-form-label nzRequired>
+          <span class="material-icons field-label-icon">notes</span>
+          Description
+        </nz-form-label>
         <nz-form-control>
-          <textarea nz-input [(ngModel)]="currentTransaction.description" name="description" rows="3"></textarea>
+          <textarea nz-input
+                    [(ngModel)]="currentTransaction.description"
+                    name="description"
+                    [nzAutosize]="{ minRows: 2, maxRows: 4 }"
+                    placeholder="e.g. Monthly rent payment…">
+          </textarea>
         </nz-form-control>
       </nz-form-item>
+
     </form>
   </ng-container>
+
+  <!-- Custom footer -->
+  <ng-template #modalFooterTpl>
+    <div class="modal-footer">
+      <button nz-button nzType="default" (click)="handleCancel()" class="btn-cancel">
+        Cancel
+      </button>
+      <button nz-button nzType="primary" (click)="handleOk()" [disabled]="!isFormValid()" class="btn-save">
+        <span class="material-icons" style="font-size:17px; vertical-align:middle; margin-right:4px;">
+          {{ isEditMode ? 'check_circle' : 'add_circle' }}
+        </span>
+        {{ isEditMode ? 'Save Changes' : 'Add Transaction' }}
+      </button>
+    </div>
+  </ng-template>
 </nz-modal>
+

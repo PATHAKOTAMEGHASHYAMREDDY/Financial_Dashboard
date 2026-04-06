@@ -1,51 +1,64 @@
+/* ============================================
+   App Shell Styles — Sidebar, Header, Layout
+   ============================================ */
+
 .app-layout {
   min-height: 100vh;
+  background: var(--fg-bg);
 }
 
+/* ── Sidebar ── */
 .menu-sidebar {
   position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
-  overflow: auto;
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  background: linear-gradient(160deg, #064e3b 0%, #065f46 40%, #047857 100%);
+  box-shadow: 4px 0 24px rgba(5, 150, 105, 0.15);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 100;
-  background: linear-gradient(180deg, #001529 0%, #002140 100%);
+
+  &:hover {
+    overflow: auto;
+  }
 }
 
 :host-context(.dark) .menu-sidebar {
-  background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
-  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(160deg, #020617 0%, #0f172a 40%, #1e293b 100%);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5);
 }
 
-/* Main layout with dynamic margin */
+/* Smooth layout margin transition */
 ::ng-deep .app-layout > .ant-layout {
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ── Logo Area ── */
 .logo-container {
-  height: 80px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 20px;
+  padding: 0 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 12px;
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   transition: all 0.3s ease;
 }
 
 .logo-icon {
-  font-size: 36px;
-  color: #1890ff;
-  transition: transform 0.3s ease;
+  font-size: 32px;
+  color: #6ee7b7;
+  filter: drop-shadow(0 0 8px rgba(110, 231, 183, 0.4));
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .menu-sidebar:hover .logo-icon {
@@ -53,176 +66,502 @@
 }
 
 .logo-text {
-  font-size: 24px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: 1px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
   animation: fadeInRight 0.3s ease;
+  font-family: 'Inter', sans-serif;
+
+  span.fin { color: #6ee7b7; }
+  span.dash { color: #fff; }
 }
 
 @keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
+/* ── Sidebar Menu ── */
 .sidebar-menu {
-  padding: 0 12px;
+  padding: 0 10px;
 }
 
 .menu-link {
   display: flex;
   align-items: center;
   gap: 12px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
-  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .menu-icon {
-  font-size: 20px;
+  font-size: 18px;
   transition: all 0.3s ease;
+}
+
+::ng-deep .ant-menu-dark {
+  background: transparent !important;
 }
 
 ::ng-deep .ant-menu-dark .ant-menu-item {
-  border-radius: 8px;
-  margin: 8px 0;
-  transition: all 0.3s ease;
+  border-radius: 10px !important;
+  margin: 4px 0 !important;
+  height: 48px !important;
+  line-height: 48px !important;
+  transition: all 0.25s ease !important;
+  color: rgba(255,255,255,0.75) !important;
 }
 
 ::ng-deep .ant-menu-dark .ant-menu-item:hover {
-  background: rgba(24, 144, 255, 0.2) !important;
-  transform: translateX(4px);
+  background: rgba(110, 231, 183, 0.12) !important;
+  color: #ffffff !important;
+  transform: translateX(3px);
+}
+
+::ng-deep .ant-menu-dark .ant-menu-item:hover .menu-icon {
+  color: #6ee7b7 !important;
 }
 
 ::ng-deep .ant-menu-dark .ant-menu-item-selected {
-  background: linear-gradient(90deg, rgba(24, 144, 255, 0.3), rgba(24, 144, 255, 0.1)) !important;
-  border-left: 3px solid #1890ff;
+  background: rgba(110, 231, 183, 0.18) !important;
+  border-left: 3px solid #6ee7b7 !important;
+  color: #ffffff !important;
+}
+
+::ng-deep .ant-menu-dark .ant-menu-item-selected .menu-link {
+  color: #ffffff !important;
 }
 
 ::ng-deep .ant-menu-dark .ant-menu-item-selected .menu-icon {
-  color: #1890ff;
+  color: #6ee7b7 !important;
   transform: scale(1.1);
+}
+
+::ng-deep .ant-menu-dark .ant-menu-item-divider {
+  border-color: rgba(255,255,255,0.1) !important;
+  margin: 8px 0 !important;
 }
 
 .role-menu-item {
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 8px !important;
 }
 
-::ng-deep .ant-menu-dark {
-  background: transparent;
+/* ── Sidebar scrollbar ── */
+.menu-sidebar::-webkit-scrollbar { width: 4px; }
+.menu-sidebar::-webkit-scrollbar-track { background: transparent; }
+.menu-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(110, 231, 183, 0.25);
+  border-radius: 2px;
 }
 
+/* ── Header ── */
 .header {
-  background: #fff;
-  padding: 0 32px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: var(--fg-surface);
+  padding: 0;
+  box-shadow: 0 1px 0 var(--fg-border);
   position: sticky;
   top: 0;
   z-index: 10;
   height: 64px;
-  line-height: 64px;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  border-bottom: 1px solid var(--fg-border);
 }
 
 :host-context(.dark) .header {
-  background: #1f1f1f;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  background: #1e293b;
+  box-shadow: 0 1px 0 #334155;
+  border-bottom-color: #334155;
 }
 
-.header-left h2 {
-  line-height: 64px;
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 24px;
+  gap: 12px;
 }
 
-.header-right {
-  line-height: 64px;
+/* Left side */
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
 
-.theme-toggle-btn {
-  width: 48px;
-  height: 48px;
+.header-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--fg-text);
+  margin: 0;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+:host-context(.dark) .header-title {
+  color: #f1f5f9;
+}
+
+/* ── Live Indicator (pulsing dot) ── */
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(5, 150, 105, 0.08);
+  border: 1px solid rgba(5, 150, 105, 0.2);
+  border-radius: 20px;
+  padding: 4px 10px 4px 8px;
+}
+
+:host-context(.dark) .live-indicator {
+  background: rgba(5, 150, 105, 0.1);
+  border-color: rgba(5, 150, 105, 0.25);
+}
+
+.live-dot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
+  background: #059669;
+  position: relative;
+  flex-shrink: 0;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: rgba(5, 150, 105, 0.25);
+    animation: pulse-ring 1.8s ease-out infinite;
+  }
+}
+
+:host-context(.dark) .live-dot {
+  background: #34d399;
+  &::after { background: rgba(52, 211, 153, 0.2); }
+}
+
+.live-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #059669;
+  line-height: 1;
+}
+
+:host-context(.dark) .live-text { color: #34d399; }
+
+@keyframes pulse-ring {
+  0%   { transform: scale(0.6); opacity: 1; }
+  80%  { transform: scale(2);   opacity: 0; }
+  100% { transform: scale(2);   opacity: 0; }
+}
+
+/* Right side */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Role Pill ── */
+.role-pill {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  background: transparent;
+  user-select: none;
+}
+
+.role-pill:hover {
+  background: var(--fg-bg);
+}
+
+:host-context(.dark) .role-pill:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.role-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+.role-pill.is-admin .role-dot  { background: #059669; }
+.role-pill:not(.is-admin) .role-dot { background: #94a3b8; }
+
+:host-context(.dark) .role-pill.is-admin .role-dot  { background: #34d399; }
+:host-context(.dark) .role-pill:not(.is-admin) .role-dot { background: #64748b; }
+
+.role-label {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--fg-text-muted);
+  transition: color 0.2s ease;
+}
+
+.role-pill.is-admin .role-label  { color: #059669; }
+.role-pill:not(.is-admin) .role-label { color: #64748b; }
+
+:host-context(.dark) .role-pill.is-admin .role-label  { color: #34d399; }
+:host-context(.dark) .role-pill:not(.is-admin) .role-label { color: #94a3b8; }
+
+/* ── Vertical Divider ── */
+.header-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--fg-border);
+  flex-shrink: 0;
+}
+
+:host-context(.dark) .header-divider { background: #334155; }
+
+/* ── Icon Button (theme toggle) ── */
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  background: rgba(0, 0, 0, 0.04);
+  background: transparent;
+  border: 1px solid var(--fg-border);
+  color: var(--fg-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
 }
 
-:host-context(.dark) .theme-toggle-btn {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+:host-context(.dark) .icon-btn {
+  border-color: #334155;
+  color: #64748b;
 }
 
-.theme-toggle-btn:hover {
-  background: rgba(0, 0, 0, 0.08);
-  transform: rotate(180deg);
+.icon-btn:hover {
+  background: rgba(5, 150, 105, 0.08);
+  border-color: rgba(5, 150, 105, 0.4);
+  color: #059669;
 }
 
-:host-context(.dark) .theme-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: rotate(180deg);
+:host-context(.dark) .icon-btn:hover {
+  background: rgba(5, 150, 105, 0.1);
+  border-color: rgba(5, 150, 105, 0.35);
+  color: #34d399;
 }
 
-.theme-toggle-btn i {
-  transition: all 0.3s ease;
+.icon-btn-icon {
+  font-size: 16px;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+.icon-btn:hover .icon-btn-icon {
+  transform: rotate(15deg) scale(1.1);
+}
+
+/* ── Main Content ── */
 .inner-content {
   margin: 0;
   min-height: calc(100vh - 64px);
-  background: #f0f2f5;
+  background: var(--fg-bg);
+  transition: background 0.3s ease;
 }
 
-:host-context(.dark) .inner-content {
-  background: #141414;
-}
-
+/* ── Collapsed Sidebar Layout ── */
 ::ng-deep .ant-layout-sider-dark {
   background: transparent;
 }
 
-::ng-deep .ant-layout-sider-collapsed .logo-text {
-  display: none;
-}
-
-::ng-deep .ant-menu-inline-collapsed > .ant-menu-item {
-  padding: 0 calc(50% - 16px / 2);
-}
-
-/* Smooth scrollbar for sidebar */
-.menu-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.menu-sidebar::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.menu-sidebar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
-}
-
-.menu-sidebar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-/* Responsive adjustments */
+/* ── Responsive ── */
 @media (max-width: 768px) {
   ::ng-deep .app-layout > .ant-layout {
     margin-left: 0 !important;
   }
-  
   .menu-sidebar {
     transform: translateX(-100%);
   }
-  
+  .menu-sidebar:hover {
+    transform: translateX(0);
+  }
+}
+
+
+:host-context(.dark) .header {
+  background: #1e293b;
+  box-shadow: 0 1px 0 #334155, 0 2px 12px rgba(0,0,0,0.3);
+  border-bottom-color: #334155;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 28px;
+  gap: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--fg-text);
+  margin: 0;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--fg-primary-light);
+  color: var(--fg-primary);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+
+:host-context(.dark) .header-badge {
+  background: rgba(5, 150, 105, 0.15);
+  color: #6ee7b7;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ── Theme Toggle ── */
+.theme-toggle-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: var(--fg-bg);
+  border: 1px solid var(--fg-border);
+  color: var(--fg-text-muted);
+  cursor: pointer;
+}
+
+:host-context(.dark) .theme-toggle-btn {
+  background: rgba(255,255,255,0.05);
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--fg-primary-light);
+  border-color: var(--fg-primary);
+  color: var(--fg-primary);
+  transform: scale(1.05);
+}
+
+:host-context(.dark) .theme-toggle-btn:hover {
+  background: rgba(5, 150, 105, 0.15);
+  border-color: rgba(5, 150, 105, 0.4);
+  color: #6ee7b7;
+  transform: scale(1.05);
+}
+
+.theme-toggle-btn i {
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.theme-toggle-btn:hover i {
+  transform: rotate(20deg) scale(1.1);
+}
+
+/* ── Role Badge in Header ── */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid;
+  cursor: default;
+  transition: all 0.2s ease;
+}
+
+.role-badge.admin {
+  background: rgba(5, 150, 105, 0.08);
+  color: #059669;
+  border-color: rgba(5, 150, 105, 0.25);
+}
+
+.role-badge.viewer {
+  background: rgba(100, 116, 139, 0.08);
+  color: #64748b;
+  border-color: rgba(100, 116, 139, 0.25);
+}
+
+:host-context(.dark) .role-badge.admin {
+  background: rgba(5, 150, 105, 0.12);
+  color: #6ee7b7;
+  border-color: rgba(5, 150, 105, 0.3);
+}
+
+:host-context(.dark) .role-badge.viewer {
+  background: rgba(148, 163, 184, 0.08);
+  color: #94a3b8;
+  border-color: rgba(148, 163, 184, 0.25);
+}
+
+/* ── Main Content ── */
+.inner-content {
+  margin: 0;
+  min-height: calc(100vh - 64px);
+  background: var(--fg-bg);
+  transition: background 0.3s ease;
+}
+
+/* ── Collapsed Sidebar Layout ── */
+::ng-deep .ant-layout-sider-dark {
+  background: transparent;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  ::ng-deep .app-layout > .ant-layout {
+    margin-left: 0 !important;
+  }
+  .menu-sidebar {
+    transform: translateX(-100%);
+  }
   .menu-sidebar:hover {
     transform: translateX(0);
   }

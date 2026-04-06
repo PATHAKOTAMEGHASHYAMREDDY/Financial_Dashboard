@@ -8,7 +8,7 @@ import { Transaction, Summary, CategoryExpense, MonthlyComparison } from '../mod
 export class TransactionService {
   private readonly STORAGE_KEY = 'finance_transactions';
   private readonly VERSION_KEY = 'finance_data_version';
-  private readonly CURRENT_VERSION = '2.0'; // Updated version
+  private readonly CURRENT_VERSION = '3.0'; // Apr data trimmed to today (Apr 6)
   private transactionsSubject = new BehaviorSubject<Transaction[]>([]);
   public transactions$ = this.transactionsSubject.asObservable();
 
@@ -35,37 +35,13 @@ export class TransactionService {
 
   private initializeMockData(): void {
     const mockTransactions: Transaction[] = [
-      // April 2026 - Current Month
-      { id: '1', date: new Date(2026, 3, 1), amount: 5000, category: 'Salary', type: 'income', description: 'Monthly salary payment' },
-      { id: '2', date: new Date(2026, 3, 2), amount: 1200, category: 'Rent', type: 'expense', description: 'Monthly rent payment' },
-      { id: '3', date: new Date(2026, 3, 3), amount: 300, category: 'Groceries', type: 'expense', description: 'Weekly groceries shopping' },
-      { id: '4', date: new Date(2026, 3, 4), amount: 150, category: 'Entertainment', type: 'expense', description: 'Movie tickets and dinner' },
-      { id: '5', date: new Date(2026, 3, 5), amount: 200, category: 'Transport', type: 'expense', description: 'Fuel and car maintenance' },
-      { id: '6', date: new Date(2026, 3, 6), amount: 500, category: 'Freelance', type: 'income', description: 'Web design project payment' },
-      { id: '7', date: new Date(2026, 3, 8), amount: 80, category: 'Entertainment', type: 'expense', description: 'Streaming subscriptions' },
-      { id: '8', date: new Date(2026, 3, 10), amount: 250, category: 'Groceries', type: 'expense', description: 'Supermarket shopping' },
-      { id: '9', date: new Date(2026, 3, 12), amount: 120, category: 'Transport', type: 'expense', description: 'Public transport monthly pass' },
-      { id: '10', date: new Date(2026, 3, 14), amount: 300, category: 'Freelance', type: 'income', description: 'Logo design project' },
-      { id: '11', date: new Date(2026, 3, 15), amount: 450, category: 'Shopping', type: 'expense', description: 'Clothing and accessories' },
-      { id: '12', date: new Date(2026, 3, 16), amount: 90, category: 'Utilities', type: 'expense', description: 'Electricity bill' },
-      { id: '13', date: new Date(2026, 3, 17), amount: 60, category: 'Utilities', type: 'expense', description: 'Internet bill' },
-      { id: '14', date: new Date(2026, 3, 18), amount: 180, category: 'Healthcare', type: 'expense', description: 'Doctor consultation and medicines' },
-      { id: '15', date: new Date(2026, 3, 20), amount: 200, category: 'Entertainment', type: 'expense', description: 'Concert tickets' },
-      { id: '16', date: new Date(2026, 3, 22), amount: 350, category: 'Groceries', type: 'expense', description: 'Monthly grocery stock' },
-      { id: '17', date: new Date(2026, 3, 24), amount: 100, category: 'Transport', type: 'expense', description: 'Taxi and ride-sharing' },
-      { id: '18', date: new Date(2026, 3, 25), amount: 800, category: 'Freelance', type: 'income', description: 'Mobile app development' },
-      { id: '19', date: new Date(2026, 3, 26), amount: 150, category: 'Dining', type: 'expense', description: 'Restaurant meals' },
-      { id: '20', date: new Date(2026, 3, 28), amount: 75, category: 'Entertainment', type: 'expense', description: 'Gaming subscription' },
-      { id: '21', date: new Date(2026, 3, 7), amount: 220, category: 'Shopping', type: 'expense', description: 'Books and stationery' },
-      { id: '22', date: new Date(2026, 3, 9), amount: 45, category: 'Utilities', type: 'expense', description: 'Mobile phone bill' },
-      { id: '23', date: new Date(2026, 3, 11), amount: 1500, category: 'Freelance', type: 'income', description: 'E-commerce website project' },
-      { id: '24', date: new Date(2026, 3, 13), amount: 95, category: 'Healthcare', type: 'expense', description: 'Dental checkup' },
-      { id: '25', date: new Date(2026, 3, 19), amount: 180, category: 'Dining', type: 'expense', description: 'Family dinner celebration' },
-      { id: '26', date: new Date(2026, 3, 21), amount: 65, category: 'Transport', type: 'expense', description: 'Car wash and detailing' },
-      { id: '27', date: new Date(2026, 3, 23), amount: 320, category: 'Shopping', type: 'expense', description: 'Electronics accessories' },
-      { id: '28', date: new Date(2026, 3, 27), amount: 140, category: 'Entertainment', type: 'expense', description: 'Theme park tickets' },
-      { id: '29', date: new Date(2026, 3, 29), amount: 280, category: 'Groceries', type: 'expense', description: 'Organic food shopping' },
-      { id: '30', date: new Date(2026, 3, 30), amount: 400, category: 'Freelance', type: 'income', description: 'Social media marketing campaign' },
+      // ── April 2026 — Current Month (up to today, Apr 6) ──
+      { id: '1', date: new Date(2026, 3, 1), amount: 5000, category: 'Salary',        type: 'income',  description: 'Monthly salary payment' },
+      { id: '2', date: new Date(2026, 3, 2), amount: 1200, category: 'Rent',          type: 'expense', description: 'Monthly rent payment' },
+      { id: '3', date: new Date(2026, 3, 3), amount: 300,  category: 'Groceries',     type: 'expense', description: 'Weekly groceries shopping' },
+      { id: '4', date: new Date(2026, 3, 4), amount: 150,  category: 'Entertainment', type: 'expense', description: 'Movie tickets and dinner' },
+      { id: '5', date: new Date(2026, 3, 5), amount: 200,  category: 'Transport',     type: 'expense', description: 'Fuel and car maintenance' },
+      { id: '6', date: new Date(2026, 3, 6), amount: 500,  category: 'Freelance',     type: 'income',  description: 'Web design project payment' },
       
       // March 2026 - Previous Month
       { id: '31', date: new Date(2026, 2, 1), amount: 5000, category: 'Salary', type: 'income', description: 'Monthly salary payment' },

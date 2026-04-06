@@ -1,22 +1,226 @@
+/* ============================================
+   Dashboard Component Styles
+   ============================================ */
+
 .dashboard-container {
-  animation: fadeIn 0.5s ease-in;
+  background: var(--fg-bg);
+  animation: fadeInUp 0.4s ease;
 }
 
-.chart-card, .insight-card {
+/* ── Component-scoped Dark Mode Card Overrides ── */
+/* These beat ng-zorro-antd.min.css because they are component-scoped */
+:host-context(.dark) ::ng-deep .ant-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-card-head {
+  background: #1e293b !important;
+  border-bottom-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-card-head-title {
+  color: #f1f5f9 !important;
+}
+
+:host-context(.dark) ::ng-deep .ant-card-body {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+/* ── Page Header ── */
+.page-header {
+  padding-bottom: 4px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--fg-text);
+  letter-spacing: -0.02em;
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--fg-text-muted);
+  margin: 0;
+}
+
+/* ── Charts ── */
+.chart-card,
+.insight-card {
+  border-radius: 14px;
+  border: 1px solid var(--fg-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chart-card:hover,
+.insight-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--fg-shadow-lg) !important;
+}
+
+.chart-period-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fg-primary);
+  background: var(--fg-primary-light);
+  padding: 2px 10px;
   border-radius: 12px;
-  border: 1px solid #f0f0f0;
-  transition: all 0.3s ease;
+  letter-spacing: 0.03em;
 }
 
-:host-context(.dark) .chart-card,
-:host-context(.dark) .insight-card {
-  border-color: #303030;
+:host-context(.dark) .chart-period-tag {
+  background: rgba(5, 150, 105, 0.15);
+  color: #6ee7b7;
 }
 
-@keyframes fadeIn {
+/* ── Summary Card Icon Backgrounds ── */
+::ng-deep .card-icon-bg {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+::ng-deep .card-icon-emerald {
+  background: rgba(5, 150, 105, 0.1) !important;
+}
+:host-context(.dark) ::ng-deep .card-icon-emerald {
+  background: rgba(5, 150, 105, 0.15) !important;
+}
+
+::ng-deep .card-icon-emerald-dark {
+  background: rgba(4, 120, 87, 0.1) !important;
+}
+:host-context(.dark) ::ng-deep .card-icon-emerald-dark {
+  background: rgba(4, 120, 87, 0.15) !important;
+}
+
+::ng-deep .card-icon-red {
+  background: rgba(220, 38, 38, 0.08) !important;
+}
+:host-context(.dark) ::ng-deep .card-icon-red {
+  background: rgba(220, 38, 38, 0.12) !important;
+}
+
+::ng-deep .card-icon-emerald-xdark {
+  background: rgba(6, 95, 70, 0.1) !important;
+}
+:host-context(.dark) ::ng-deep .card-icon-emerald-xdark {
+  background: rgba(6, 95, 70, 0.2) !important;
+}
+
+/* ── Insight Cards ── */
+.insight-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.insight-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  .material-icons {
+    font-size: 26px;
+  }
+}
+
+.insight-icon-amber {
+  background: rgba(245, 158, 11, 0.1);
+  .material-icons { color: #d97706; }
+}
+:host-context(.dark) .insight-icon-amber {
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.insight-icon-emerald {
+  background: rgba(5, 150, 105, 0.1);
+  .material-icons { color: #059669; }
+}
+:host-context(.dark) .insight-icon-emerald {
+  background: rgba(5, 150, 105, 0.15);
+  .material-icons { color: #6ee7b7; }
+}
+
+.insight-icon-emerald-dark {
+  background: rgba(4, 120, 87, 0.1);
+  .material-icons { color: #047857; }
+}
+:host-context(.dark) .insight-icon-emerald-dark {
+  background: rgba(4, 120, 87, 0.15);
+  .material-icons { color: #34d399; }
+}
+
+.insight-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.insight-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 4px;
+}
+
+.insight-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--fg-text);
+  margin: 0 0 2px;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.insight-sub {
+  font-size: 12px;
+  color: var(--fg-text-muted);
+  margin: 0;
+}
+
+/* ── Explicit dark mode text overrides for insight cards ── */
+:host-context(.dark) .insight-label { color: #64748b !important; }
+:host-context(.dark) .insight-value { color: #f1f5f9 !important; }
+:host-context(.dark) .insight-sub   { color: #94a3b8 !important; }
+:host-context(.dark) .insight-positive { color: #6ee7b7 !important; }
+:host-context(.dark) .insight-negative { color: #f87171 !important; }
+:host-context(.dark) .page-title    { color: #f1f5f9 !important; }
+
+.insight-positive {
+  color: #059669;
+  font-weight: 500;
+}
+
+.insight-negative {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+:host-context(.dark) .insight-positive { color: #6ee7b7; }
+:host-context(.dark) .insight-negative { color: #f87171; }
+
+/* ── Animations ── */
+@keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;

@@ -9,6 +9,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { NzFormModule } from 'ng-zorro-antd/form';
@@ -16,6 +17,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'app-transactions',
@@ -27,12 +29,14 @@ import { NzCardModule } from 'ng-zorro-antd/card';
     NzButtonModule,
     NzIconModule,
     NzInputModule,
+    NzInputNumberModule,
     NzSelectModule,
     NzModalModule,
     NzFormModule,
     NzDatePickerModule,
     NzDropDownModule,
-    NzCardModule
+    NzCardModule,
+    NzToolTipModule,
   ],
   templateUrl: './transactions.component.html',
   styleUrls: ['./transactions.component.scss']
@@ -203,5 +207,16 @@ export class TransactionsComponent implements OnInit {
   exportJSON(): void {
     this.exportService.exportToJSON(this.filteredTransactions);
     this.message.success('Exported to JSON');
+  }
+
+  isFormValid(): boolean {
+    const t = this.currentTransaction;
+    return !!(
+      t.date &&
+      t.amount && t.amount > 0 &&
+      t.category &&
+      t.type &&
+      t.description && t.description.trim().length > 0
+    );
   }
 }

@@ -1,10 +1,776 @@
-/* You can add global styles to this file, and also import other style files */
+/* ============================================
+   Global Styles — FinDash Professional Theme
+   Green & White | Light & Dark Mode
+   ============================================ */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
+/* ── Font ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ── CSS Design Tokens ── */
+:root {
+  /* Brand */
+  --fg-primary:         #059669;
+  --fg-primary-hover:   #047857;
+  --fg-primary-light:   #d1fae5;
+  --fg-primary-dark:    #065f46;
+
+  /* Surfaces */
+  --fg-bg:              #f1f5f9;
+  --fg-surface:         #ffffff;
+  --fg-border:          #e2e8f0;
+  --fg-border-hover:    #cbd5e1;
+
+  /* Text */
+  --fg-text:            #0f172a;
+  --fg-text-muted:      #64748b;
+  --fg-text-subtle:     #94a3b8;
+
+  /* Shadows */
+  --fg-shadow-sm:       0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --fg-shadow-md:       0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --fg-shadow-lg:       0 10px 30px rgba(5,150,105,0.10), 0 4px 10px rgba(0,0,0,0.06);
+
+  /* Ant Design / Ng-Zorro primary overrides */
+  --ant-primary-color:            #059669;
+  --ant-primary-color-hover:      #047857;
+  --ant-primary-color-active:     #065f46;
+  --ant-primary-color-outline:    rgba(5, 150, 105, 0.2);
+  --ant-primary-1:                #ecfdf5;
+  --ant-primary-2:                #d1fae5;
+  --ant-primary-3:                #a7f3d0;
+  --ant-primary-4:                #6ee7b7;
+  --ant-primary-5:                #10b981;
+  --ant-primary-6:                #059669;
+  --ant-primary-7:                #047857;
+  --ant-link-color:               #059669;
+  --ant-link-hover-color:         #047857;
+  --ant-link-active-color:        #065f46;
+  --ant-border-radius-base:       10px;
+}
+
+/* ── Dark Mode Tokens ── */
+html.dark {
+  --fg-bg:              #0f172a;
+  --fg-surface:         #1e293b;
+  --fg-border:          #334155;
+  --fg-border-hover:    #475569;
+  --fg-text:            #f1f5f9;
+  --fg-text-muted:      #94a3b8;
+  --fg-text-subtle:     #64748b;
+  --fg-shadow-sm:       0 1px 3px rgba(0,0,0,0.3);
+  --fg-shadow-md:       0 4px 12px rgba(0,0,0,0.4);
+  --fg-shadow-lg:       0 10px 30px rgba(0,0,0,0.5);
+
+  /* Ant Design dark overrides */
+  --ant-body-background:          #0f172a;
+  --ant-component-background:     #1e293b;
+  --ant-border-color-base:        #334155;
+  --ant-heading-color:            #f1f5f9;
+  --ant-text-color:               #e2e8f0;
+  --ant-text-color-secondary:     #94a3b8;
+  --ant-item-hover-bg:            rgba(5, 150, 105, 0.08);
+  --ant-select-item-selected-bg:  rgba(5, 150, 105, 0.12);
+  --ant-table-bg:                 #1e293b;
+  --ant-table-header-bg:          #0f172a;
+  --ant-table-row-hover-bg:       rgba(5, 150, 105, 0.06);
+}
+
+/* ── Base Reset ── */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--fg-bg);
+  color: var(--fg-text);
+  line-height: 1.6;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ── Scrollbar Styling ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(5, 150, 105, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(5, 150, 105, 0.5);
+}
+
+/* ── Ant Design Global Card Override ── */
+::ng-deep .ant-card {
+  background: var(--fg-surface) !important;
+  border-color: var(--fg-border) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--fg-shadow-sm) !important;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+
+::ng-deep .ant-card:hover {
+  box-shadow: var(--fg-shadow-md) !important;
+  border-color: var(--fg-border-hover) !important;
+}
+
+::ng-deep .ant-card-head {
+  background: transparent !important;
+  border-bottom-color: var(--fg-border) !important;
+  color: var(--fg-text) !important;
+  min-height: 52px;
+}
+
+::ng-deep .ant-card-head-title {
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  color: var(--fg-text) !important;
+}
+
+::ng-deep .ant-card-body {
+  color: var(--fg-text) !important;
+}
+
+/* Explicit dark card overrides */
+html.dark ::ng-deep .ant-card {
+  background: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+html.dark ::ng-deep .ant-card-head {
+  background: #1e293b !important;
+  border-bottom-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+html.dark ::ng-deep .ant-card-body {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-card-head-title {
+  color: #f1f5f9 !important;
+}
+
+
+/* ── Ant Design Table — Dark Mode (comprehensive) ── */
+html.dark ::ng-deep .ant-table-wrapper,
+html.dark ::ng-deep .ant-spin-container,
+html.dark ::ng-deep .ant-spin-nested-loading {
+  background: #1e293b !important;
+}
+
+html.dark ::ng-deep .ant-table {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-table-container {
+  background: #1e293b !important;
+}
+
+html.dark ::ng-deep .ant-table-content {
+  background: #1e293b !important;
+}
+
+html.dark ::ng-deep .ant-table table {
+  background: #1e293b !important;
+}
+
+html.dark ::ng-deep .ant-table-thead > tr > th {
+  background: #0f172a !important;
+  color: #64748b !important;
+  border-bottom: 2px solid #334155 !important;
+  border-right-color: #334155 !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+}
+
+html.dark ::ng-deep .ant-table-thead > tr > th::before {
+  background-color: #334155 !important;
+}
+
+html.dark ::ng-deep .ant-table-tbody > tr > td {
+  background: #1e293b !important;
+  border-bottom-color: #1e3a5f26 !important;
+  border-bottom: 1px solid #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-table-tbody > tr:hover > td,
+html.dark ::ng-deep .ant-table-tbody > tr.ant-table-row:hover > td {
+  background: rgba(5, 150, 105, 0.07) !important;
+}
+
+html.dark ::ng-deep .ant-table-tbody > tr.ant-table-row-selected > td {
+  background: rgba(5, 150, 105, 0.12) !important;
+}
+
+/* Sort icons in dark */
+html.dark ::ng-deep .ant-table-column-sorter-up,
+html.dark ::ng-deep .ant-table-column-sorter-down {
+  color: #475569 !important;
+}
+html.dark ::ng-deep .ant-table-column-sorter-up.active,
+html.dark ::ng-deep .ant-table-column-sorter-down.active {
+  color: #6ee7b7 !important;
+}
+
+/* Empty state */
+html.dark ::ng-deep .ant-empty-description {
+  color: #64748b !important;
+}
+
+/* Pagination dark mode */
+html.dark ::ng-deep .ant-pagination {
+  padding: 8px 0 4px !important;
+  background: #1e293b !important;
+}
+
+html.dark ::ng-deep .ant-pagination-item a {
+  color: #94a3b8 !important;
+}
+
+html.dark ::ng-deep .ant-pagination-item {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark ::ng-deep .ant-pagination-item:hover {
+  border-color: #059669 !important;
+}
+
+html.dark ::ng-deep .ant-pagination-item:hover a {
+  color: #6ee7b7 !important;
+}
+
+html.dark ::ng-deep .ant-pagination-item-active {
+  background: rgba(5, 150, 105, 0.1) !important;
+  border-color: #059669 !important;
+}
+
+html.dark ::ng-deep .ant-pagination-item-active a {
+  color: #6ee7b7 !important;
+}
+
+html.dark ::ng-deep .ant-pagination-prev .ant-pagination-item-link,
+html.dark ::ng-deep .ant-pagination-next .ant-pagination-item-link {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+html.dark ::ng-deep .ant-pagination-prev:hover .ant-pagination-item-link,
+html.dark ::ng-deep .ant-pagination-next:hover .ant-pagination-item-link {
+  border-color: #059669 !important;
+  color: #6ee7b7 !important;
+}
+
+html.dark ::ng-deep .ant-pagination-options .ant-select-selector {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-table-footer {
+  background: #0f172a !important;
+  border-top-color: #334155 !important;
+}
+
+/* Page size changer label */
+html.dark ::ng-deep .ant-pagination-options-size-changer .ant-select-selection-item {
+  color: #e2e8f0 !important;
+}
+
+
+
+
+/* ── Ant Design Button Styles ── */
+::ng-deep .ant-btn-primary {
+  background: var(--fg-primary) !important;
+  border-color: var(--fg-primary) !important;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3) !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+}
+
+::ng-deep .ant-btn-primary:hover {
+  background: var(--fg-primary-hover) !important;
+  border-color: var(--fg-primary-hover) !important;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4) !important;
+}
+
+/* ── Inputs / Selects / Pickers — Dark Mode ── */
+html.dark ::ng-deep .ant-input,
+html.dark ::ng-deep .ant-input:focus,
+html.dark ::ng-deep .ant-input:hover,
+html.dark ::ng-deep .ant-input-focused,
+html.dark ::ng-deep .ant-input-affix-wrapper,
+html.dark ::ng-deep .ant-input-affix-wrapper:focus,
+html.dark ::ng-deep .ant-input-affix-wrapper:hover,
+html.dark ::ng-deep .ant-input-affix-wrapper-focused,
+html.dark ::ng-deep .ant-input-number,
+html.dark ::ng-deep .ant-input-number-input,
+html.dark ::ng-deep .ant-input-number-focused,
+html.dark ::ng-deep .ant-input-group-addon,
+html.dark ::ng-deep .ant-input-group-wrapper {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-input::placeholder,
+html.dark ::ng-deep .ant-input-number-input::placeholder {
+  color: #475569 !important;
+}
+
+html.dark ::ng-deep .ant-input-prefix,
+html.dark ::ng-deep .ant-input-suffix,
+html.dark ::ng-deep .ant-input-clear-icon {
+  color: #64748b !important;
+}
+
+html.dark ::ng-deep .ant-select-selector {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-select:hover .ant-select-selector,
+html.dark ::ng-deep .ant-select-focused .ant-select-selector {
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.15) !important;
+}
+
+html.dark ::ng-deep .ant-select-selection-placeholder {
+  color: #475569 !important;
+}
+
+html.dark ::ng-deep .ant-select-selection-item {
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-select-arrow,
+html.dark ::ng-deep .ant-select-clear {
+  color: #64748b !important;
+  background: transparent !important;
+}
+
+html.dark ::ng-deep .ant-select-dropdown {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+}
+
+html.dark ::ng-deep .ant-select-item {
+  color: #e2e8f0 !important;
+  background: transparent !important;
+}
+
+html.dark ::ng-deep .ant-select-item-option-active:not(.ant-select-item-option-disabled),
+html.dark ::ng-deep .ant-select-item:hover {
+  background: rgba(5, 150, 105, 0.08) !important;
+}
+
+html.dark ::ng-deep .ant-select-item-option-selected {
+  background: rgba(5, 150, 105, 0.14) !important;
+  color: #6ee7b7 !important;
+  font-weight: 600 !important;
+}
+
+/* Date / Range Picker */
+html.dark ::ng-deep .ant-picker,
+html.dark ::ng-deep .ant-picker-focused,
+html.dark ::ng-deep .ant-picker:hover {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+
+html.dark ::ng-deep .ant-picker-input > input {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-picker-input > input::placeholder {
+  color: #475569 !important;
+}
+
+html.dark ::ng-deep .ant-picker-suffix,
+html.dark ::ng-deep .ant-picker-clear {
+  color: #64748b !important;
+  background: transparent !important;
+}
+
+html.dark ::ng-deep .ant-picker-separator {
+  color: #475569 !important;
+}
+
+html.dark ::ng-deep .ant-picker-dropdown {
+  background: #1e293b !important;
+}
+
+html.dark ::ng-deep .ant-picker-panel-container {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+}
+
+html.dark ::ng-deep .ant-picker-header,
+html.dark ::ng-deep .ant-picker-header button {
+  color: #94a3b8 !important;
+  border-bottom: 1px solid #334155 !important;
+}
+
+html.dark ::ng-deep .ant-picker-content th {
+  color: #64748b !important;
+}
+
+html.dark ::ng-deep .ant-picker-cell .ant-picker-cell-inner {
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-picker-cell:hover .ant-picker-cell-inner {
+  background: rgba(5, 150, 105, 0.1) !important;
+}
+
+html.dark ::ng-deep .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner {
+  background: #059669 !important;
+}
+
+/* ── Focus Glow ── */
+html.dark ::ng-deep .ant-input:focus,
+html.dark ::ng-deep .ant-input-focused,
+html.dark ::ng-deep .ant-input-affix-wrapper-focused {
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2) !important;
+  border-color: #059669 !important;
+}
+
+/* ── Table — Complete Dark Mode Fix ── */
+/* Every possible wrapper layer */
+html.dark ::ng-deep .ant-table-wrapper { background: #1e293b !important; }
+html.dark ::ng-deep .ant-spin-nested-loading { background: #1e293b !important; }
+html.dark ::ng-deep .ant-spin-container { background: #1e293b !important; }
+html.dark ::ng-deep .ant-table { background: #1e293b !important; color: #e2e8f0 !important; }
+html.dark ::ng-deep .ant-table-container { background: #1e293b !important; }
+html.dark ::ng-deep .ant-table-content { background: #1e293b !important; }
+html.dark ::ng-deep .ant-table table { background: #1e293b !important; }
+
+/* Thead */
+html.dark ::ng-deep .ant-table-thead > tr,
+html.dark ::ng-deep .ant-table-thead > tr > th {
+  background: #0f172a !important;
+  color: #64748b !important;
+  border-bottom: 2px solid #334155 !important;
+  border-right: 1px solid #1e293b !important;
+}
+
+html.dark ::ng-deep .ant-table-thead > tr > th::before {
+  background-color: #334155 !important;
+}
+
+/* Tbody — THE critical fix: each row AND each cell must be dark */
+html.dark ::ng-deep .ant-table-tbody > tr {
+  background: #1e293b !important;
+}
+
+html.dark ::ng-deep .ant-table-tbody > tr > td {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.6) !important;
+}
+
+html.dark ::ng-deep .ant-table-tbody > tr:hover,
+html.dark ::ng-deep .ant-table-tbody > tr.ant-table-row:hover {
+  background: transparent !important;
+}
+
+html.dark ::ng-deep .ant-table-tbody > tr:hover > td,
+html.dark ::ng-deep .ant-table-tbody > tr.ant-table-row:hover > td {
+  background: rgba(5, 150, 105, 0.07) !important;
+}
+
+/* Alternating row shade */
+html.dark ::ng-deep .ant-table-tbody > tr:nth-child(even) > td {
+  background: rgba(15, 23, 42, 0.5) !important;
+}
+
+html.dark ::ng-deep .ant-table-tbody > tr:nth-child(even):hover > td {
+  background: rgba(5, 150, 105, 0.07) !important;
+}
+
+/* Sort icons */
+html.dark ::ng-deep .ant-table-column-sorter { color: #475569 !important; }
+html.dark ::ng-deep .ant-table-column-sorter-up.active,
+html.dark ::ng-deep .ant-table-column-sorter-down.active { color: #6ee7b7 !important; }
+
+/* Pagination */
+html.dark ::ng-deep .ant-pagination { background: #1e293b !important; color: #94a3b8 !important; }
+html.dark ::ng-deep .ant-pagination-item {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+}
+html.dark ::ng-deep .ant-pagination-item a { color: #94a3b8 !important; background: transparent !important; }
+html.dark ::ng-deep .ant-pagination-item:hover { border-color: #059669 !important; }
+html.dark ::ng-deep .ant-pagination-item:hover a { color: #6ee7b7 !important; }
+html.dark ::ng-deep .ant-pagination-item-active { background: rgba(5,150,105,0.1) !important; border-color: #059669 !important; }
+html.dark ::ng-deep .ant-pagination-item-active a { color: #6ee7b7 !important; }
+html.dark ::ng-deep .ant-pagination-prev .ant-pagination-item-link,
+html.dark ::ng-deep .ant-pagination-next .ant-pagination-item-link {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+html.dark ::ng-deep .ant-pagination-prev:hover .ant-pagination-item-link,
+html.dark ::ng-deep .ant-pagination-next:hover .ant-pagination-item-link {
+  border-color: #059669 !important;
+  color: #6ee7b7 !important;
+}
+
+html.dark ::ng-deep .ant-empty-description { color: #64748b !important; }
+
+/* ═══════════════════════════════════════════════
+   MODAL DARK MODE — Global (portal renders outside component)
+   ═══════════════════════════════════════════════ */
+
+html.dark ::ng-deep .ant-modal-wrap { background: transparent; }
+
+html.dark ::ng-deep .ant-modal-mask {
+  background: rgba(0, 0, 0, 0.65) !important;
+}
+
+html.dark ::ng-deep .ant-modal-content {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6) !important;
+  border-radius: 16px !important;
+}
+
+html.dark ::ng-deep .ant-modal-header {
+  background: #1e293b !important;
+  border-bottom: 1px solid #334155 !important;
+  border-radius: 16px 16px 0 0 !important;
+  padding: 20px 24px !important;
+}
+
+html.dark ::ng-deep .ant-modal-title {
+  color: #f1f5f9 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+
+/* Custom modal title elements (rendered in portal) */
+html.dark ::ng-deep .modal-title-main {
+  color: #f1f5f9 !important;
+}
+
+html.dark ::ng-deep .modal-title-sub {
+  color: #64748b !important;
+}
+
+html.dark ::ng-deep .modal-title-icon {
+  background: rgba(52, 211, 153, 0.1) !important;
+  color: #34d399 !important;
+}
+
+html.dark ::ng-deep .modal-title-icon .material-icons {
+  color: #34d399 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body {
+  background: #1e293b !important;
+  color: #e2e8f0 !important;
+  padding: 20px 24px !important;
+}
+
+html.dark ::ng-deep .ant-modal-footer {
+  background: #1e293b !important;
+  border-top: 1px solid #334155 !important;
+  border-radius: 0 0 16px 16px !important;
+  padding: 12px 24px 16px !important;
+}
+
+html.dark ::ng-deep .ant-modal-close {
+  color: #64748b !important;
+  background: transparent !important;
+}
+
+html.dark ::ng-deep .ant-modal-close:hover {
+  color: #94a3b8 !important;
+  background: rgba(255,255,255,0.05) !important;
+}
+
+/* Form labels inside modal */
+html.dark ::ng-deep .ant-modal-body .ant-form-item-label > label {
+  color: #64748b !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-form-item {
+  margin-bottom: 18px !important;
+}
+
+html.dark ::ng-deep .ant-form-item-explain,
+html.dark ::ng-deep .ant-form-item-extra { color: #64748b !important; }
+
+/* All inputs inside modal */
+html.dark ::ng-deep .ant-modal-body .ant-input,
+html.dark ::ng-deep .ant-modal-body .ant-input:hover,
+html.dark ::ng-deep .ant-modal-body .ant-input:focus,
+html.dark ::ng-deep .ant-modal-body .ant-input-affix-wrapper,
+html.dark ::ng-deep .ant-modal-body .ant-input-affix-wrapper:hover,
+html.dark ::ng-deep .ant-modal-body .ant-input-affix-wrapper-focused,
+html.dark ::ng-deep .ant-modal-body .ant-input-group-addon,
+html.dark ::ng-deep .ant-modal-body textarea.ant-input {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-input::placeholder,
+html.dark ::ng-deep .ant-modal-body textarea.ant-input::placeholder {
+  color: #475569 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-input:focus,
+html.dark ::ng-deep .ant-modal-body .ant-input-affix-wrapper-focused {
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 2px rgba(5,150,105,0.2) !important;
+}
+
+/* Select inside modal */
+html.dark ::ng-deep .ant-modal-body .ant-select-selector {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-select-selection-placeholder {
+  color: #475569 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-select-arrow {
+  color: #64748b !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-select-focused .ant-select-selector {
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 2px rgba(5,150,105,0.2) !important;
+}
+
+/* Date picker inside modal */
+html.dark ::ng-deep .ant-modal-body .ant-picker {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  width: 100%;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-picker:hover,
+html.dark ::ng-deep .ant-modal-body .ant-picker-focused {
+  border-color: #059669 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-picker-input > input {
+  background: transparent !important;
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-picker-input > input::placeholder {
+  color: #475569 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .ant-picker-suffix {
+  color: #64748b !important;
+}
+
+/* Input-group addon (used for $ prefix) */
+html.dark ::ng-deep .ant-modal-body .ant-input-group-addon {
+  background: #1a2744 !important;
+  border-color: #334155 !important;
+  color: #34d399 !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+}
+
+/* Type selector buttons inside modal */
+html.dark ::ng-deep .ant-modal-body .type-btn {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #64748b !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .type-btn-active-income {
+  background: rgba(52,211,153,0.1) !important;
+  border-color: #34d399 !important;
+  color: #34d399 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .type-btn-active-expense {
+  background: rgba(248,113,113,0.09) !important;
+  border-color: #f87171 !important;
+  color: #f87171 !important;
+}
+
+html.dark ::ng-deep .ant-modal-body .modal-title-icon {
+  background: rgba(52,211,153,0.12) !important;
+  color: #34d399 !important;
+}
+
+/* Modal footer buttons */
+html.dark ::ng-deep .ant-modal-footer .ant-btn-default {
+  background: #0f172a !important;
+  border-color: #334155 !important;
+  color: #94a3b8 !important;
+}
+
+html.dark ::ng-deep .ant-modal-footer .ant-btn-default:hover {
+  border-color: #475569 !important;
+  color: #e2e8f0 !important;
+}
+
+/* ── Dropdown Dark Mode ── */
+html.dark ::ng-deep .ant-dropdown-menu {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
+}
+
+html.dark ::ng-deep .ant-dropdown-menu-item {
+  color: #e2e8f0 !important;
+}
+
+html.dark ::ng-deep .ant-dropdown-menu-item:hover {
+  background: rgba(5, 150, 105, 0.08) !important;
+  color: #6ee7b7 !important;
+}
+
+/* ── Message Toasts ── */
+html.dark ::ng-deep .ant-message-notice-content {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+  color: #e2e8f0 !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
+}
+
