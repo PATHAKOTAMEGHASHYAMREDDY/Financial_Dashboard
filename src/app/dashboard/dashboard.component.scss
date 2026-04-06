@@ -42,15 +42,96 @@
   border-color: rgba(52, 211, 153, 0.08);
 }
 
+/* ── Mobile: Hero Header ── */
 @media (max-width: 640px) {
   .page-header-hero {
     flex-direction: column;
     align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 32px !important;
   }
+
   .hero-lottie {
     align-self: center;
+    padding: 8px;
+    margin-bottom: 20px;
+  }
+
+  /* Shrink lottie on mobile to save vertical space */
+  .hero-lottie ::ng-deep lottie-player,
+  .hero-lottie ng-lottie {
+    width: 120px !important;
+    height: 95px !important;
   }
 }
+
+/* ── Mobile: Dashboard page padding ── */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 16px !important;
+    padding-bottom: 40px !important; /* Extra bottom padding to prevent overlap */
+    min-height: calc(100vh - 64px) !important;
+  }
+
+  /* Chart containers: shorter on mobile */
+  .chart-container {
+    height: 220px !important;
+  }
+  
+  /* Add spacing between sections on mobile */
+  .page-header-hero {
+    margin-bottom: 24px !important;
+  }
+  
+  /* Add bottom margin to last row */
+  ::ng-deep nz-row:last-child {
+    margin-bottom: 24px !important;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 480px) {
+  .dashboard-container {
+    padding: 12px !important;
+    padding-bottom: 48px !important; /* More bottom padding on small screens */
+    min-height: calc(100vh - 64px) !important;
+  }
+
+  .chart-container {
+    height: 190px !important;
+  }
+
+  .page-title {
+    font-size: 20px !important;
+  }
+
+  .page-subtitle {
+    font-size: 13px !important;
+  }
+  
+  .page-header-hero {
+    margin-bottom: 28px !important;
+    padding-bottom: 24px;
+  }
+  
+  .hero-lottie {
+    margin-bottom: 24px;
+    padding: 10px;
+  }
+  
+  .hero-lottie ::ng-deep lottie-player,
+  .hero-lottie ng-lottie {
+    width: 100px !important;
+    height: 80px !important;
+  }
+  
+  /* Extra spacing for last section on small phones */
+  ::ng-deep nz-row:last-child {
+    margin-bottom: 32px !important;
+  }
+}
+
 
 /* ── Component-scoped Dark Mode Card Overrides ── */
 /* These beat ng-zorro-antd.min.css because they are component-scoped */

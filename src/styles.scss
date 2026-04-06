@@ -774,3 +774,99 @@ html.dark ::ng-deep .ant-message-notice-content {
   box-shadow: 0 8px 24px rgba(0,0,0,0.4) !important;
 }
 
+/* ═══════════════════════════════════════════════════════
+   GLOBAL MOBILE RESPONSIVE (Portal / Overlay elements)
+   Applies to modals, pickers, dropdowns rendered in the
+   CDK overlay portal — must live in styles.scss
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Add bottom padding to main content area on mobile */
+  .inner-content {
+    padding-bottom: 40px !important;
+    min-height: calc(100vh - 64px) !important;
+  }
+
+  /* Modal: centered popup on mobile */
+  .ant-modal {
+    max-width: calc(100vw - 32px) !important;
+    width: calc(100vw - 32px) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    position: fixed !important;
+  }
+
+  .ant-modal-wrap {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .ant-modal-content {
+    border-radius: 16px !important;
+    max-height: 85vh !important;
+    overflow: hidden !important;
+  }
+
+  .ant-modal-body {
+    max-height: calc(85vh - 130px) !important;
+    overflow-y: auto !important;
+  }
+
+  /* Date picker panel: prevent overflow */
+  .ant-picker-panel-container {
+    max-width: calc(100vw - 24px) !important;
+    overflow-x: auto !important;
+  }
+
+  /* Dropdown: full width on mobile */
+  .ant-select-dropdown {
+    max-width: calc(100vw - 24px) !important;
+  }
+
+  /* Pagination: compact on mobile */
+  .ant-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+  }
+
+  .ant-pagination-options {
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Extra bottom padding on very small screens */
+  .inner-content {
+    padding-bottom: 56px !important;
+  }
+
+  /* Modal: slightly larger on small phones */
+  .ant-modal {
+    max-width: calc(100vw - 24px) !important;
+    width: calc(100vw - 24px) !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .ant-modal-content {
+    border-radius: 14px !important;
+    max-height: 90vh !important;
+  }
+
+  .ant-modal-body {
+    max-height: calc(90vh - 130px) !important;
+  }
+
+  /* Form labels: shorter on small phones */
+  .ant-form-item-label > label {
+    font-size: 12px !important;
+  }
+}

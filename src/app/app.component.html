@@ -1,6 +1,12 @@
 <nz-layout class="app-layout">
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" 
+       [class.active]="isMobileSidebarOpen" 
+       (click)="closeMobileSidebar()"></div>
+
   <nz-sider
     class="menu-sidebar"
+    [class.mobile-open]="isMobileSidebarOpen"
     nzCollapsible
     nzWidth="250px"
     [nzCollapsedWidth]="80"
@@ -25,14 +31,14 @@
         [nzInlineCollapsed]="isCollapsed"
         class="sidebar-menu">
 
-      <li nz-menu-item nzMatchRouter>
+      <li nz-menu-item nzMatchRouter (click)="onMenuItemClick()">
         <a routerLink="/dashboard" class="menu-link">
           <i nz-icon nzType="dashboard" class="menu-icon"></i>
           <span>Dashboard</span>
         </a>
       </li>
 
-      <li nz-menu-item nzMatchRouter>
+      <li nz-menu-item nzMatchRouter (click)="onMenuItemClick()">
         <a routerLink="/transactions" class="menu-link">
           <i nz-icon nzType="swap" class="menu-icon"></i>
           <span>Transactions</span>
@@ -43,7 +49,7 @@
 
       <li nz-menu-item
           class="role-menu-item"
-          (click)="onRoleChange(currentRole === 'admin' ? 'viewer' : 'admin')"
+          (click)="onRoleChange(currentRole === 'admin' ? 'viewer' : 'admin'); onMenuItemClick()"
           nz-tooltip
           [nzTooltipTitle]="isCollapsed ? (currentRole === 'admin' ? 'Switch to Viewer' : 'Switch to Admin') : ''"
           nzTooltipPlacement="right">
@@ -57,6 +63,13 @@
     <!-- Header -->
     <nz-header class="header">
       <div class="header-inner">
+
+        <!-- Mobile Hamburger Menu Button -->
+        <button class="hamburger-btn" (click)="toggleMobileSidebar()" aria-label="Toggle menu">
+          <span class="hamburger-line" [class.open]="isMobileSidebarOpen"></span>
+          <span class="hamburger-line" [class.open]="isMobileSidebarOpen"></span>
+          <span class="hamburger-line" [class.open]="isMobileSidebarOpen"></span>
+        </button>
 
         <!-- Left: Title + Live dot -->
         <div class="header-left">

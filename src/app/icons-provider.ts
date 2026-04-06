@@ -24,7 +24,12 @@ import {
   SunOutline,
   MoonOutline,
   UserOutline,
-  EyeOutline
+  EyeOutline,
+  SwapOutline,
+  CrownOutline,
+  FileTextOutline,
+  CodeOutline,
+  ReloadOutline
 } from '@ant-design/icons-angular/icons';
 
 const icons = [
@@ -51,7 +56,12 @@ const icons = [
   SunOutline,
   MoonOutline,
   UserOutline,
-  EyeOutline
+  EyeOutline,
+  SwapOutline,
+  CrownOutline,
+  FileTextOutline,
+  CodeOutline,
+  ReloadOutline
 ];
 
 export function provideNzIcons(): EnvironmentProviders {

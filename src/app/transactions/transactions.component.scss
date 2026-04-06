@@ -629,3 +629,87 @@
 
 :host-context(.dark) .empty-title { color: #e2e8f0; }
 :host-context(.dark) .empty-sub   { color: #64748b; }
+
+/* ═══════════════════════════════════════════
+   MOBILE RESPONSIVE — Transactions Page
+   Only applies ≤ 768px (desktop unchanged)
+   ═══════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Page: tighter padding on mobile with extra bottom space */
+  .transactions-container {
+    padding: 16px !important;
+    padding-bottom: 40px !important;
+    min-height: calc(100vh - 64px) !important;
+  }
+
+  /* Page header row: wrap so buttons go to next line */
+  .page-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  /* Make table horizontally scrollable */
+  .table-card ::ng-deep .ant-card-body {
+    padding: 0 !important;
+    overflow-x: auto;
+  }
+
+  /* Ensure table doesn't shrink below readable width */
+  .transaction-table {
+    min-width: 520px;
+  }
+
+  /* Smaller font in table cells */
+  ::ng-deep .ant-table-tbody > tr > td {
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+  }
+
+  ::ng-deep .ant-table-thead > tr > th {
+    padding: 10px 12px !important;
+    font-size: 12px !important;
+  }
+
+  /* Filter card: tighter padding on mobile */
+  .filter-card ::ng-deep .ant-card-body {
+    padding: 16px !important;
+  }
+}
+
+/* Extra-small phones (≤ 480px) */
+@media (max-width: 480px) {
+
+  .transactions-container {
+    padding: 10px !important;
+    padding-bottom: 48px !important;
+  }
+
+  /* Hide Description column to save horizontal space */
+  .td-desc {
+    display: none;
+  }
+
+  ::ng-deep .ant-table-thead th:nth-child(2) {
+    display: none;
+  }
+
+  /* Shrink page title */
+  .page-title {
+    font-size: 18px !important;
+  }
+
+  /* Make export + add buttons smaller */
+  .btn-add,
+  .btn-export {
+    font-size: 12px;
+    padding: 0 10px !important;
+    height: 32px !important;
+  }
+}

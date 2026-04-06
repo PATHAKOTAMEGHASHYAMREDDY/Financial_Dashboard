@@ -387,16 +387,245 @@
   background: transparent;
 }
 
-/* ── Responsive ── */
+/* ═══════════════════════════════════════════
+   MOBILE RESPONSIVE — Only applies ≤ 768px
+   ═══════════════════════════════════════════ */
+
+/* Mobile Overlay - darkens background when sidebar is open */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Hamburger Menu Button - only visible on mobile */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid var(--fg-border);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 8px 6px;
+  z-index: 250;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+:host-context(.dark) .hamburger-btn {
+  border-color: #334155;
+}
+
+.hamburger-btn:hover {
+  background: rgba(5, 150, 105, 0.08);
+  border-color: rgba(5, 150, 105, 0.4);
+}
+
+:host-context(.dark) .hamburger-btn:hover {
+  background: rgba(5, 150, 105, 0.1);
+  border-color: rgba(5, 150, 105, 0.35);
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 2px;
+  background: var(--fg-text-muted);
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+:host-context(.dark) .hamburger-line {
+  background: #94a3b8;
+}
+
+.hamburger-btn:hover .hamburger-line {
+  background: #059669;
+}
+
+:host-context(.dark) .hamburger-btn:hover .hamburger-line {
+  background: #34d399;
+}
+
+/* Hamburger animation when open */
+.hamburger-line.open:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger-line.open:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger-line.open:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
+
+  /* Show hamburger button on mobile */
+  .hamburger-btn {
+    display: flex;
+  }
+
+  /* Show overlay on mobile */
+  .mobile-overlay {
+    display: block;
+  }
+
+  /* Sidebar: slide off-screen by default on mobile */
+  .menu-sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 200;
+    position: fixed;
+    width: 250px !important;
+    max-width: 250px !important;
+    min-width: 250px !important;
+    flex: 0 0 250px !important;
+  }
+
+  /* Show sidebar when mobile-open class is active */
+  .menu-sidebar.mobile-open {
+    transform: translateX(0);
+    box-shadow: 8px 0 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Disable hover behavior on mobile */
+  .menu-sidebar:hover {
+    transform: translateX(-100%);
+    overflow: hidden;
+  }
+
+  .menu-sidebar.mobile-open:hover {
+    transform: translateX(0);
+    overflow: auto;
+  }
+
+  /* Force sidebar to be expanded on mobile when open - show icon + text */
+  ::ng-deep .menu-sidebar.mobile-open {
+    .ant-layout-sider-children {
+      width: 250px !important;
+    }
+    
+    .sidebar-menu {
+      width: 250px !important;
+    }
+    
+    .ant-menu-inline-collapsed {
+      width: 250px !important;
+    }
+    
+    /* Force menu items to show text */
+    .ant-menu-item {
+      padding-left: 24px !important;
+      
+      .menu-link {
+        display: flex !important;
+        
+        span {
+          display: inline !important;
+          opacity: 1 !important;
+        }
+      }
+    }
+    
+    /* Show logo text */
+    .logo-text {
+      display: inline !important;
+      opacity: 1 !important;
+    }
+  }
+
+  /* Main content fills full width since sidebar is off-screen */
   ::ng-deep .app-layout > .ant-layout {
     margin-left: 0 !important;
   }
-  .menu-sidebar {
-    transform: translateX(-100%);
+
+  /* Header: tighter padding on mobile */
+  .header-inner {
+    padding: 0 12px;
+    gap: 8px;
   }
-  .menu-sidebar:hover {
-    transform: translateX(0);
+
+  /* Header title: smaller font size on mobile */
+  .header-title {
+    font-size: 15px;
+  }
+
+  /* Live indicator: show both dot and text on mobile */
+  .live-indicator {
+    padding: 4px 8px;
+  }
+  
+  .live-text {
+    font-size: 10px;
+  }
+
+  /* Role pill: show label on mobile with smaller font */
+  .role-label {
+    font-size: 11px;
+  }
+
+  .role-pill {
+    padding: 5px 10px;
+    min-width: unset;
+  }
+
+  /* Header divider: hide on mobile to save space */
+  .header-divider {
+    display: none;
+  }
+
+  /* Icon button: slightly smaller on mobile */
+  .icon-btn {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* Extra-small phones (≤ 480px) */
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 14px;
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .header-inner {
+    padding: 0 10px;
+    gap: 6px;
+  }
+
+  .hamburger-btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .icon-btn-icon {
+    font-size: 14px;
   }
 }
 
