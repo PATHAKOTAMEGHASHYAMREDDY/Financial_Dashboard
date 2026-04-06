@@ -20,8 +20,8 @@
         </ul>
       </nz-dropdown-menu>
 
-      <!-- Add Transaction — always visible -->
-      <button nz-button nzType="primary" (click)="showAddModal()" class="btn-add">
+      <!-- Add Transaction — Admin only -->
+      <button *ngIf="isAdmin" nz-button nzType="primary" (click)="showAddModal()" class="btn-add">
         <i nz-icon nzType="plus"></i>
         <span>Add Transaction</span>
       </button>
@@ -76,11 +76,11 @@
       </nz-range-picker>
 
       <div class="amount-range">
-        <nz-input-group nzPrefix="$" nzCompact>
+        <nz-input-group nzPrefix="₹" nzCompact>
           <input nz-input type="number" placeholder="Min" [(ngModel)]="amountRange.min" (ngModelChange)="applyFilters()" />
         </nz-input-group>
         <span class="range-sep">—</span>
-        <nz-input-group nzPrefix="$" nzCompact>
+        <nz-input-group nzPrefix="₹" nzCompact>
           <input nz-input type="number" placeholder="Max" [(ngModel)]="amountRange.max" (ngModelChange)="applyFilters()" />
         </nz-input-group>
       </div>
@@ -131,7 +131,7 @@
             </span>
           </td>
           <td [class]="transaction.type === 'income' ? 'amount-income' : 'amount-expense'">
-            ${{ transaction.amount.toLocaleString() }}
+            ₹{{ transaction.amount.toLocaleString() }}
           </td>
           <td *ngIf="isAdmin" class="td-actions">
             <button nz-button nzType="link" nzSize="small" (click)="showEditModal(transaction)"
@@ -212,7 +212,7 @@
           Amount
         </nz-form-label>
         <nz-form-control>
-          <nz-input-group nzPrefix="$" class="amount-input-group">
+          <nz-input-group nzPrefix="₹" class="amount-input-group">
             <input nz-input
                    type="number"
                    placeholder="0.00"

@@ -14,7 +14,7 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
           <p class="card-label">{{ title }}</p>
           <nz-statistic
             [nzValue]="value"
-            [nzPrefix]="'$'"
+            [nzPrefix]="'₹'"
             [nzValueStyle]="{ color: color, fontSize: '26px', fontWeight: '700', letterSpacing: '-0.01em' }">
           </nz-statistic>
           <p *ngIf="subtitle" class="card-subtitle">{{ subtitle }}</p>
