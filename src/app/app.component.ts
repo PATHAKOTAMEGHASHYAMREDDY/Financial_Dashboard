@@ -54,9 +54,12 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
-      if (window.innerWidth <= 768 && this.isMobileSidebarOpen) {
-        this.closeMobileSidebar();
-      }
+      // Add small delay to ensure smooth transition
+      setTimeout(() => {
+        if (window.innerWidth <= 768 && this.isMobileSidebarOpen) {
+          this.closeMobileSidebar();
+        }
+      }, 100);
     });
   }
 
