@@ -58,31 +58,46 @@
     </div>
   </div>
 
-  <!-- Charts -->
-  <div nz-row [nzGutter]="[20, 20]" class="mb-8">
+  <!-- Charts Row 1: Balance Trend + Doughnut -->
+  <div nz-row [nzGutter]="[20, 20]" class="mb-6">
     <div nz-col [nzXs]="24" [nzLg]="16">
       <nz-card class="chart-card" nzTitle="Balance Trend">
         <ng-template #chartExtra>
           <span class="chart-period-tag">All Time</span>
         </ng-template>
         <div class="chart-container" style="height: 300px;">
-          <canvas baseChart
-            [data]="lineChartData"
-            [options]="lineChartOptions"
-            type="line">
-          </canvas>
+          <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" type="line"></canvas>
         </div>
       </nz-card>
     </div>
-
     <div nz-col [nzXs]="24" [nzLg]="8">
       <nz-card class="chart-card" nzTitle="Expenses by Category">
         <div class="chart-container" style="height: 300px;">
-          <canvas baseChart
-            [data]="pieChartData"
-            [options]="pieChartOptions"
-            type="doughnut">
-          </canvas>
+          <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" type="doughnut"></canvas>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+
+  <!-- Charts Row 2: Monthly Bar + Radar -->
+  <div nz-row [nzGutter]="[20, 20]" class="mb-8">
+    <div nz-col [nzXs]="24" [nzLg]="14">
+      <nz-card class="chart-card" nzTitle="Monthly Income vs Expenses">
+        <ng-template #barExtra>
+          <span class="chart-period-tag">Last 4 Months</span>
+        </ng-template>
+        <div class="chart-container" style="height: 280px;">
+          <canvas baseChart [data]="barChartData" [options]="barChartOptions" type="bar"></canvas>
+        </div>
+      </nz-card>
+    </div>
+    <div nz-col [nzXs]="24" [nzLg]="10">
+      <nz-card class="chart-card" nzTitle="Spending by Category">
+        <ng-template #radarExtra>
+          <span class="chart-period-tag">Top 6</span>
+        </ng-template>
+        <div class="chart-container" style="height: 280px;">
+          <canvas baseChart [data]="radarChartData" [options]="radarChartOptions" type="radar"></canvas>
         </div>
       </nz-card>
     </div>

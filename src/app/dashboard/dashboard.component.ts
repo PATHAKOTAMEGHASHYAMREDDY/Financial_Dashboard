@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           cornerRadius: 10,
           padding: 12,
           callbacks: {
-            label: (ctx) => ` $${ctx.parsed.y != null ? ctx.parsed.y.toLocaleString() : ''}`,
+            label: (ctx) => ` ₹${ctx.parsed.y != null ? ctx.parsed.y.toLocaleString() : ''}`,
           }
         }
       },
@@ -82,7 +82,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ticks: {
             color: textColor,
             font: { family: 'Inter', size: 11 },
-            callback: (v) => `$${Number(v).toLocaleString()}`
+            callback: (v) => `₹${Number(v).toLocaleString()}`
           },
           grid: { color: gridColor, drawBorder: false } as any
         }
@@ -118,8 +118,72 @@ export class DashboardComponent implements OnInit, OnDestroy {
           cornerRadius: 10,
           padding: 12,
           callbacks: {
-            label: (ctx) => ` $${Number(ctx.parsed).toLocaleString()}`,
+            label: (ctx) => ` ₹${Number(ctx.parsed).toLocaleString()}`,
           }
+        }
+      }
+    };
+  }
+
+  barChartData: ChartConfiguration['data'] = { datasets: [], labels: [] };
+  radarChartData: ChartConfiguration['data'] = { datasets: [], labels: [] };
+
+  get barChartOptions(): ChartConfiguration['options'] {
+    const textColor = this.isDarkMode ? '#94a3b8' : '#64748b';
+    const gridColor = this.isDarkMode ? 'rgba(51,65,85,0.6)' : 'rgba(226,232,240,0.8)';
+    return {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          display: true, position: 'top',
+          labels: { color: textColor, font: { family: 'Inter', size: 12, weight: 500 }, boxWidth: 12, padding: 16 }
+        },
+        tooltip: {
+          backgroundColor: this.isDarkMode ? '#1e293b' : '#ffffff',
+          titleColor: this.isDarkMode ? '#f1f5f9' : '#0f172a',
+          bodyColor: this.isDarkMode ? '#94a3b8' : '#64748b',
+          borderColor: this.isDarkMode ? '#334155' : '#e2e8f0',
+          borderWidth: 1, cornerRadius: 10, padding: 12,
+          callbacks: { label: (ctx) => ` ₹${(ctx.parsed?.y ?? 0).toLocaleString()}` }
+        }
+      },
+      scales: {
+        x: { ticks: { color: textColor, font: { family: 'Inter', size: 11 } }, grid: { color: gridColor, drawBorder: false } as any },
+        y: {
+          beginAtZero: true,
+          ticks: { color: textColor, font: { family: 'Inter', size: 11 }, callback: (v) => `₹${Number(v).toLocaleString()}` },
+          grid: { color: gridColor, drawBorder: false } as any
+        }
+      }
+    };
+  }
+
+  get radarChartOptions(): ChartConfiguration['options'] {
+    const textColor = this.isDarkMode ? '#94a3b8' : '#64748b';
+    const gridColor = this.isDarkMode ? 'rgba(51,65,85,0.5)' : 'rgba(226,232,240,0.9)';
+    return {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true, position: 'top',
+          labels: { color: textColor, font: { family: 'Inter', size: 12, weight: 500 }, boxWidth: 12, padding: 16 }
+        },
+        tooltip: {
+          backgroundColor: this.isDarkMode ? '#1e293b' : '#ffffff',
+          titleColor: this.isDarkMode ? '#f1f5f9' : '#0f172a',
+          bodyColor: this.isDarkMode ? '#94a3b8' : '#64748b',
+          borderColor: this.isDarkMode ? '#334155' : '#e2e8f0',
+          borderWidth: 1, cornerRadius: 10, padding: 12,
+          callbacks: { label: (ctx) => ` ₹${Number((ctx.raw as number)).toLocaleString()}` }
+        }
+      },
+      scales: {
+        r: {
+          angleLines: { color: gridColor },
+          grid: { color: gridColor },
+          pointLabels: { color: textColor, font: { family: 'Inter', size: 11 } },
+          ticks: { color: textColor, backdropColor: 'transparent', callback: (v) => `₹${Number(v).toLocaleString()}` }
         }
       }
     };
@@ -160,47 +224,83 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   private loadChartData(): void {
     const balanceTrend = this.transactionService.getBalanceTrend();
+    const transactions = this.transactionService['transactionsSubject'].value;
 
-    // ── Line Chart: Green gradient ──
+    // ── Line Chart: Balance Trend ──
     this.lineChartData = {
       datasets: [{
         data: balanceTrend.map(t => t.balance),
         label: 'Balance',
         borderColor: '#059669',
-        backgroundColor: this.isDarkMode
-          ? 'rgba(5, 150, 105, 0.08)'
-          : 'rgba(5, 150, 105, 0.07)',
+        backgroundColor: this.isDarkMode ? 'rgba(5, 150, 105, 0.08)' : 'rgba(5, 150, 105, 0.07)',
         pointBackgroundColor: '#059669',
         pointBorderColor: this.isDarkMode ? '#1e293b' : '#ffffff',
-        pointBorderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-        fill: true,
-        tension: 0.4,
-        borderWidth: 2.5,
+        pointBorderWidth: 2, pointRadius: 4, pointHoverRadius: 6,
+        fill: true, tension: 0.4, borderWidth: 2.5,
       }],
       labels: balanceTrend.map(t => t.date)
     };
 
-    // ── Doughnut Chart: Green-dominant professional palette ──
+    // ── Doughnut Chart ──
     this.pieChartData = {
       datasets: [{
         data: this.categoryExpenses.map(c => c.amount),
-        backgroundColor: [
-          '#059669', // Emerald 600
-          '#10b981', // Emerald 500
-          '#34d399', // Emerald 400
-          '#f59e0b', // Amber (contrast)
-          '#6366f1', // Indigo (contrast)
-          '#ef4444', // Red
-          '#8b5cf6', // Violet
-          '#06b6d4', // Cyan
-        ],
+        backgroundColor: ['#059669','#10b981','#34d399','#f59e0b','#6366f1','#ef4444','#8b5cf6','#06b6d4'],
         borderColor: this.isDarkMode ? '#1e293b' : '#ffffff',
-        borderWidth: 2,
-        hoverOffset: 6,
+        borderWidth: 2, hoverOffset: 6,
       }],
       labels: this.categoryExpenses.map(c => c.category)
+    };
+
+    // ── Bar Chart: Monthly Income vs Expenses (last 4 months) ──
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const now = new Date();
+    const last4: { label: string; income: number; expense: number }[] = [];
+    for (let i = 3; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const m = d.getMonth(); const y = d.getFullYear();
+      const inc = transactions.filter(t => {
+        const td = new Date(t.date); return t.type === 'income' && td.getMonth() === m && td.getFullYear() === y;
+      }).reduce((s, t) => s + t.amount, 0);
+      const exp = transactions.filter(t => {
+        const td = new Date(t.date); return t.type === 'expense' && td.getMonth() === m && td.getFullYear() === y;
+      }).reduce((s, t) => s + t.amount, 0);
+      last4.push({ label: `${months[m]} '${String(y).slice(-2)}`, income: inc, expense: exp });
+    }
+    this.barChartData = {
+      labels: last4.map(m => m.label),
+      datasets: [
+        {
+          label: 'Income',
+          data: last4.map(m => m.income),
+          backgroundColor: this.isDarkMode ? 'rgba(52,211,153,0.75)' : 'rgba(5,150,105,0.8)',
+          borderColor: this.isDarkMode ? '#34d399' : '#059669',
+          borderWidth: 1.5, borderRadius: 6, borderSkipped: false as any,
+        },
+        {
+          label: 'Expenses',
+          data: last4.map(m => m.expense),
+          backgroundColor: this.isDarkMode ? 'rgba(248,113,113,0.7)' : 'rgba(220,38,38,0.75)',
+          borderColor: this.isDarkMode ? '#f87171' : '#dc2626',
+          borderWidth: 1.5, borderRadius: 6, borderSkipped: false as any,
+        }
+      ]
+    };
+
+    // ── Radar Chart: Spending by Category ──
+    const top6 = this.categoryExpenses.slice(0, 6);
+    this.radarChartData = {
+      labels: top6.map(c => c.category),
+      datasets: [{
+        label: 'Spending (₹)',
+        data: top6.map(c => c.amount),
+        backgroundColor: this.isDarkMode ? 'rgba(52,211,153,0.15)' : 'rgba(5,150,105,0.12)',
+        borderColor: this.isDarkMode ? '#34d399' : '#059669',
+        pointBackgroundColor: this.isDarkMode ? '#34d399' : '#059669',
+        pointBorderColor: this.isDarkMode ? '#1e293b' : '#ffffff',
+        pointBorderWidth: 2, pointRadius: 4,
+        borderWidth: 2,
+      }]
     };
   }
 
